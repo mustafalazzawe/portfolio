@@ -1,0 +1,107 @@
+body {
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-body-md);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body-md);  
+  color: var(--fg-primary);
+  background-color: var(--bg-canvas);
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-family-header);
+  font-weight: var(--font-weight-medium);
+}
+
+h1 {
+  font-size: var(--font-size-display-lg);
+  line-height: var(--line-height-display-lg);
+  letter-spacing: var(--letter-spacing-lg);
+}
+
+h2 {
+  font-size: var(--font-size-display-md);
+  line-height: var(--line-height-display-md);
+  letter-spacing: var(--letter-spacing-md);
+}
+
+h3 {
+  font-size: var(--font-size-display-sm);
+  line-height: var(--line-height-display-sm);
+  letter-spacing: var(--letter-spacing-sm);
+}
+
+h4 {
+  font-size: var(--font-size-display-xs);
+  line-height: var(--line-height-display-xs);
+  letter-spacing: var(--letter-spacing-xs);
+}
+
+p {
+  max-width: 75ch;
+}
+
+.text-body-lg {
+  font-size: var(--font-size-body-lg);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body-lg);
+  letter-spacing: var(--letter-spacing-normal);
+}
+
+/* Section */
+section {
+  padding: var(--spacing-64);
+}
+
+@media (max-width: 992px) {
+  section {
+    padding: var(--spacing-16);
+  }
+}
+
+.interactive {
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: var(--spacing-4);
+
+  padding: var(--spacing-6) var(--spacing-10);
+
+  border: none;
+  border-radius: var(--b-radius-lg);
+}
+
+.btn-primary {
+  color: var(--fg-on-primary);
+  background-color: var(--interactive-primary);
+}
+.btn-primary:hover {
+  background-color: var(--interactive-primary-hover);
+}
+.btn-primary:active {
+  background-color: var(--interactive-primary-active);
+}
+
+.btn-secondary {
+  color: var(--fg-on-secondary);
+  background-color: var(--interactive-secondary);
+}
+.btn-secondary:hover {
+  background-color: var(--interactive-secondary-hover);
+}
+.btn-secondary:active {
+  background-color: var(--interactive-secondary-active);
+}
+

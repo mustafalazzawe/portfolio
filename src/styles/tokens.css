@@ -1,0 +1,153 @@
+:root {
+  /* Primitive tokens */
+  --color-white: #ffffff;
+  --color-black: #000000;
+
+  --color-neutral-50: #F9FCFF;
+  --color-neutral-100: #EEF6FF;
+  --color-neutral-200: #DEE9F5;
+  --color-neutral-300: #CBD6E1;
+  --color-neutral-400: #ADB5BF;
+  --color-neutral-500: #85919D;
+  --color-neutral-600: #626D79;
+  --color-neutral-700: #444E5A;
+  --color-neutral-800: #28313C;
+  --color-neutral-900: #141B23;
+  --color-neutral-950: #060C13;
+
+  --color-primary-50: #F7FDFF;
+  --color-primary-100: #E5F9FF;
+  --color-primary-200: #CFEEF7;
+  --color-primary-300: #BCDAE3;
+  --color-primary-400: #80C0D1;
+  --color-primary-500: #479CB2;
+  --color-primary-600: #1E7A8F;
+  --color-primary-700: #005768;
+  --color-primary-800: #003743;
+  --color-primary-900: #001F26;
+  --color-primary-950: #000E12;
+
+  /* Semantic tokens */
+
+  /* Foreground colors */
+  --fg-primary: var(--color-neutral-50);
+  --fg-secondary: var(--color-neutral-300);
+  --fg-tertiary: var(--color-neutral-400);
+  --fg-on-primary: var(--color-white);
+  --fg-on-secondary: var(--color-neutral-950);
+
+  /* Background colors */
+  --bg-canvas: var(--color-neutral-950);
+  --bg-primary: var(--color-neutral-900);
+  --bg-secondary: var(--color-neutral-800);
+  --bg-tertiary: var(--color-neutral-700);
+
+  /* Interactive colors */
+  --interactive-primary: var(--color-primary-600);
+  --interactive-primary-hover: var(--color-primary-500);
+  --interactive-primary-active: var(--color-primary-600);
+  --interactive-secondary: var(--color-neutral-50);
+  --interactive-secondary-hover: var(--color-neutral-100);
+  --interactive-secondary-active: var(--color-neutral-50);
+
+  /* Border colors */
+  --border-primary: var(--color-neutral-700);
+  --border-secondary: var(--color-neutral-800);
+  --border-tertiary: var(--color-neutral-900);
+
+  /* Typography */
+  --font-family-header: "Lora", serif;
+  --font-family-base: "Libre Franklin", sans-serif;
+
+  /* Display */
+  --font-size-display-lg: 4.5rem;
+  --font-size-display-md: 3.75rem;
+  --font-size-display-sm: 3rem;
+  --font-size-display-xs: 2.5rem;
+
+  /* Header */
+  --font-size-header-lg: 2.25rem;
+  --font-size-header-md: 1.875rem;
+  --font-size-header-sm: 1.5rem;
+  --font-size-header-xs: 1.25rem;
+
+  /* Body */
+  --font-size-body-lg: 1.125rem;
+  --font-size-body-md: 1rem;
+  --font-size-body-sm: 0.875rem;
+  --font-size-body-xs: 0.75rem;
+
+  /* Supporting */
+  --font-size-label: 0.75rem;
+  --font-size-small: 0.75rem;
+
+  /* Font weights */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Line heights */
+  --line-height-display-lg: 5rem;
+  --line-height-display-md: 4.25rem;
+  --line-height-display-sm: 3.5rem;
+  --line-height-display-xs: 3rem;
+  --line-height-header-lg: 2.5rem;
+  --line-height-header-md: 2.25rem;
+  --line-height-header-sm: 2rem;
+  --line-height-header-xs: 1.75rem;
+  --line-height-body-lg: 1.75rem;
+  --line-height-body-md: 1.5rem;
+  --line-height-body-sm: 1.25rem;
+  --line-height-body-xs: 1rem;
+  --line-height-supporting: 1rem;
+
+  /* Letter spacing scale */
+  --letter-spacing-lg: -0.04em;
+  --letter-spacing-md: -0.03em;
+  --letter-spacing-sm: -0.02em;
+  --letter-spacing-xs: -0.01em;
+  --letter-spacing-supporting: 0.02em;
+
+  /* Spacing */
+  --spacing-0: 0;
+  --spacing-1: 0.125rem;
+  --spacing-2: 0.25rem;
+  --spacing-3: 0.375rem;
+  --spacing-4: 0.5rem;
+  --spacing-6: 0.75rem;
+  --spacing-8: 1rem;
+  --spacing-10: 1.25rem;
+  --spacing-12: 1.5rem;
+  --spacing-16: 2rem;
+  --spacing-20: 2.5rem;
+  --spacing-24: 3rem;
+  --spacing-24: 3.5rem;
+  --spacing-32: 4rem;
+  --spacing-40: 5rem;
+  --spacing-48: 6rem;
+  --spacing-64: 8rem;
+  --spacing-128: 16rem;
+
+  /* Width */
+  --width-xxs: 8rem;
+  --width-xs: 14rem;
+  --width-sm: 16rem;
+  --width-md: 23.5rem;
+  --width-lg: 30rem;
+  --width-xl: 48rem;
+  --width-2xl: 62rem;
+  --width-3xl: 80rem;
+  --width-4xl: 96rem;
+
+  /* Border Radius */
+  --b-radius-none: 0;
+  --b-radius-xs: 0.125rem;
+  --b-radius-sm: 0.25rem;
+  --b-radius-md: 0.375rem;
+  --b-radius-lg: 0.5rem;
+  --b-radius-xl: 0.75rem;
+  --b-radius-2xl: 1rem;
+  --b-radius-3xl: 1.5rem;
+  --b-radius-full: 9999px;
+}
