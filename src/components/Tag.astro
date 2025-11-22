@@ -1,0 +1,19 @@
+---
+const { label } = Astro.props;
+---
+
+<div class="text-body-sm tag">{label}</div>
+
+<style>
+  .tag {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+
+    padding: var(--spacing-4);
+
+    border-radius: var(--b-radius-lg);
+    border: 1px solid var(--border-secondary);
+    background-color: var(--bg-primary);
+  }
+</style>

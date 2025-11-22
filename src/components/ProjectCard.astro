@@ -1,0 +1,67 @@
+---
+import Tag from "./Tag.astro";
+
+const { title = "Title", description, tags } = Astro.props;
+---
+
+<div class="project__container">
+  <div class="project__thumbnail"></div>
+  <div class="project__info">
+    <div class="project__body">
+      <div class="project__text">
+        <p class="text-body-header project__title">{title}</p>
+        <p class="project__description">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ut
+          efficitur mi, eget pharetra nisi. Etiam consectetur turpis neque,
+          vitae semper felis lobortis eget.
+        </p>
+      </div>
+      <div class="project__tags">
+        <Tag label="Label" />
+        <Tag label="Label" />
+        <Tag label="Label" />
+      </div>
+    </div>
+    <div class="project__actions">
+      <button class="interactive btn btn-primary">View Project</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .project__container {
+    display: flex;
+    gap: var(--spacing-12);
+  }
+
+  .project__thumbnail {
+    min-width: var(--width-md);
+    align-self: stretch;
+
+    border-radius: var(--b-radius-xl);
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  .project__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+
+  .project__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+  }
+
+  .project__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+
+  .project__tags {
+    display: flex;
+    gap: var(--spacing-4);
+  }
+</style>

@@ -42,15 +42,39 @@ h4 {
   letter-spacing: var(--letter-spacing-xs);
 }
 
+h5 {
+  font-size: var(--font-size-header-lg);
+  line-height: var(--line-height-header-lg);
+  letter-spacing: var(--letter-spacing-xs);
+}
+
 p {
   max-width: 75ch;
+}
+
+.text-body-header {
+  font-size: var(--font-size-header-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-header-md);
 }
 
 .text-body-lg {
   font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-regular);
   line-height: var(--line-height-body-lg);
-  letter-spacing: var(--letter-spacing-normal);
+}
+
+.text-body-sm {
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-body-sm);
+}
+
+.text-supporting-small {
+  font-size: var(--font-size-small);
+  font-weight: var(--font-weight-regular);
+  line-height: var(--line-height-supporting);
+  letter-spacing: var(--letter-spacing-supporting);
 }
 
 /* Section */
@@ -58,7 +82,12 @@ section {
   padding: var(--spacing-64);
 }
 
-@media (max-width: 992px) {
+@media (max-width: 1280px) {
+  section {
+    padding: var(--spacing-32);
+  }
+}
+@media (max-width: 768px) {
   section {
     padding: var(--spacing-16);
   }
