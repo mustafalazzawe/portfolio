@@ -78,17 +78,17 @@ p {
 }
 
 /* Section */
-section {
+section, footer {
   padding: var(--spacing-64);
 }
 
 @media (max-width: 1280px) {
-  section {
+  section, footer {
     padding: var(--spacing-32);
   }
 }
 @media (max-width: 768px) {
-  section {
+  section, footer {
     padding: var(--spacing-16);
   }
 }

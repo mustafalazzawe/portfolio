@@ -3,6 +3,7 @@ import "../styles/tokens.css";
 import "../styles/reset.css";
 import "../styles/globals.css";
 import Background from "../components/Background.astro";
+import Footer from "../components/Footer.astro";
 
 const { title = "Mustafa Al-Azzawe | Frontend Developer & Designer" } =
   Astro.props;
@@ -27,6 +28,8 @@ const { title = "Mustafa Al-Azzawe | Frontend Developer & Designer" } =
     <Background />
     <slot />
   </body>
+
+  <Footer />
 </html>
 
 <style is:global>

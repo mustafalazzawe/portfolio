@@ -1,0 +1,73 @@
+---
+const { period, role, company, description } = Astro.props;
+---
+
+<article class="timeline__item">
+  <div class="left">
+    <div class="timeline__dot"></div>
+    <span class="text-body-header experience__period">
+      <time datetime="2021">2021</time>
+      -
+      <time datetime="2022">2022</time>
+    </span>
+  </div>
+  <div class="experience__info">
+    <h5 class="experience__role">Software Developer</h5>
+    <p class="text-body-lg experience__company">3D CityScapes</p>
+    <p class="experience__description">
+      Developed web applications for real estate visualization with real-time
+      data integration. Created responsive frontends and designed user
+      interfaces for interactive property preview systems.
+    </p>
+  </div>
+</article>
+
+<style>
+  .timeline__item {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    align-items: flex-start;
+    gap: 256px;
+  }
+
+  @media (max-width: 1280px) {
+    .timeline__item {
+      gap: 64px;
+    }
+  }
+
+  .timeline__item .left {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-4);
+  }
+
+  .timeline__dot {
+    width: 16px;
+    height: 16px;
+
+    aspect-ratio: 1/1;
+
+    border-radius: var(--b-radius-full);
+    border: 2px solid white;
+
+    background-color: var(--interactive-primary);
+
+    z-index: 1;
+  }
+
+  .experience__period {
+    display: inline;
+    white-space: nowrap;
+  }
+
+  .experience__info {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-8);
+  }
+
+  .experience__company {
+    color: var(--fg-secondary);
+  }
+</style>
