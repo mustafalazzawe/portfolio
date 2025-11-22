@@ -4,7 +4,7 @@
 
 <footer>
   <div class="container">
-    <h2 class="footer__title">Let's Connect</h2>
+    <h1 class="footer__title">Let's Connect</h1>
     <div class="footer__body">
       <div class="top">
         <div class="email__container">
@@ -24,14 +24,98 @@
           </div>
         </div>
       </div>
+
       <div class="divider"></div>
-      <div class="bottom"></div>
+      
+      <div class="bottom">
+        <div class="bottom__nav">
+          <a href="#">Home</a>
+          <a href="#">Projects</a>
+          <a href="#">About</a>
+          <a href="#">Experience</a>
+          <a href="#">Contact</a>
+        </div>
+
+        <div class="bottom__info">
+          <div class="location">
+            <span class="temp">
+              Based in ICON Toronto, Ontario, Canada
+            </span>
+          </div>
+          <div class="copyright">© 2025 Mustafa Al-Azzawe</div>
+        </div>
+      </div>
     </div>
   </div>
 </footer>
 
 <style>
   footer {
-    background-color: var(--bg-secondary);
+    background-color: var(--bg-primary);
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--fg-primary);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-64);
+  }
+
+  .footer__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+
+  .footer__body .top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .email__container, .socials__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4)
+  }
+
+  .email__header, .socials__header {
+    color: var(--fg-secondary);
+  }
+
+  .socials__items {
+    display: flex;
+    gap: var(--spacing-8);
+  }
+
+  .divider {
+    align-self: stretch;
+    height: 1px;
+
+    background-color: var(--border-secondary);
+  }
+
+  .footer__body .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-32);
+  }
+
+  .bottom__nav {
+    display: flex;
+    gap: var(--spacing-8);
+  }
+
+  .bottom__info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .temp {
+    display: inline;
+    white-space: none;
   }
 </style>
