@@ -1,5 +1,5 @@
 ---
-
+import Icon from "./Icons/Icon.astro";
 ---
 
 <footer>
@@ -26,7 +26,7 @@
       </div>
 
       <div class="divider"></div>
-      
+
       <div class="bottom">
         <div class="bottom__nav">
           <a href="#">Home</a>
@@ -38,8 +38,12 @@
 
         <div class="bottom__info">
           <div class="location">
-            <span class="temp">
-              Based in ICON Toronto, Ontario, Canada
+            <span class="location__text">
+              Based in
+              <span class="icon__wrapper">
+                <Icon name="maple-leaf" size={20} fill="#FF0000" />
+              </span>
+              Toronto, Ontario, Canada
             </span>
           </div>
           <div class="copyright">© 2025 Mustafa Al-Azzawe</div>
@@ -76,13 +80,15 @@
     justify-content: space-between;
   }
 
-  .email__container, .socials__container {
+  .email__container,
+  .socials__container {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-4)
+    gap: var(--spacing-4);
   }
 
-  .email__header, .socials__header {
+  .email__header,
+  .socials__header {
     color: var(--fg-secondary);
   }
 
@@ -114,8 +120,12 @@
     justify-content: space-between;
   }
 
-  .temp {
+  .location__text {
     display: inline;
     white-space: none;
+  }
+
+  .icon__wrapper {
+    padding-inline: var(--spacing-1);
   }
 </style>
