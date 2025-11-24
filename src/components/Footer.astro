@@ -1,0 +1,131 @@
+---
+import Icon from "./Icons/Icon.astro";
+---
+
+<footer>
+  <div class="container">
+    <h1 class="footer__title">Let's Connect</h1>
+    <div class="footer__body">
+      <div class="top">
+        <div class="email__container">
+          <div class="email__header">Email</div>
+          <a href="mailto:mustafa.alazzawe@gmail.com">
+            mustafa.alazzawe@gmail.com
+          </a>
+        </div>
+
+        <div class="socials__container">
+          <div class="socials__header">Socials</div>
+          <div class="socials__items">
+            <a href="http://github.com/mustafalazzawe">Github</a>
+            <a href="www.linkedin.com/in/mustafa-al-azzawe-147a981a9">
+              Linkedin
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="bottom">
+        <div class="bottom__nav">
+          <a href="#home">Home</a>
+          <a href="#projects">Projects</a>
+          <a href="#about">About</a>
+          <a href="#experience">Experience</a>
+          <a href="#contact">Contact</a>
+        </div>
+
+        <div class="bottom__info">
+          <div class="location">
+            <span class="location__text">
+              Based in
+              <span class="icon__wrapper">
+                <Icon name="maple-leaf" size={20} fill="#FF0000" />
+              </span>
+              Toronto, Ontario, Canada
+            </span>
+          </div>
+          <div class="copyright">© 2025 Mustafa Al-Azzawe</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  footer {
+    background-color: var(--bg-primary);
+  }
+
+  a {
+    text-decoration: none;
+    color: var(--fg-primary);
+  }
+
+  .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-64);
+  }
+
+  .footer__body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+
+  .footer__body .top {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .email__container,
+  .socials__container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-4);
+  }
+
+  .email__header,
+  .socials__header {
+    color: var(--fg-secondary);
+  }
+
+  .socials__items {
+    display: flex;
+    gap: var(--spacing-8);
+  }
+
+  .divider {
+    align-self: stretch;
+    height: 1px;
+
+    background-color: var(--border-secondary);
+  }
+
+  .footer__body .bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-32);
+  }
+
+  .bottom__nav {
+    display: flex;
+    gap: var(--spacing-8);
+  }
+
+  .bottom__info {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .location__text {
+    display: inline;
+    white-space: none;
+  }
+
+  .icon__wrapper {
+    padding-inline: var(--spacing-1);
+  }
+</style>

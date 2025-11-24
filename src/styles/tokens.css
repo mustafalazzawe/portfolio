@@ -29,6 +29,9 @@
 
   /* Semantic tokens */
 
+  /* Alpha colors */
+  --primary-alpha: rgba(30, 122, 143, 0.24);
+
   /* Foreground colors */
   --fg-primary: var(--color-neutral-50);
   --fg-secondary: var(--color-neutral-300);
@@ -49,6 +52,7 @@
   --interactive-secondary: var(--color-neutral-50);
   --interactive-secondary-hover: var(--color-neutral-100);
   --interactive-secondary-active: var(--color-neutral-50);
+  --interactive-focus: var(--primary-alpha);
 
   /* Border colors */
   --border-primary: var(--color-neutral-700);
