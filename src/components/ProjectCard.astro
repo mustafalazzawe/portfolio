@@ -1,7 +1,10 @@
 ---
+import type { TProject } from "./Sections/Projects.astro";
 import Tag from "./Tag.astro";
 
-const { title = "Title", description, tags } = Astro.props;
+interface Props extends TProject {}
+
+const { type, status, title, description, tags } = Astro.props;
 ---
 
 <div class="project__container">
@@ -11,15 +14,11 @@ const { title = "Title", description, tags } = Astro.props;
       <div class="project__text">
         <p class="text-body-header project__title">{title}</p>
         <p class="project__description">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum ut
-          efficitur mi, eget pharetra nisi. Etiam consectetur turpis neque,
-          vitae semper felis lobortis eget.
+          {description}
         </p>
       </div>
       <div class="project__tags">
-        <Tag label="Label" />
-        <Tag label="Label" />
-        <Tag label="Label" />
+        {tags.map((tag) => <Tag label={tag} />)}
       </div>
     </div>
     <div class="project__actions">
@@ -34,12 +33,26 @@ const { title = "Title", description, tags } = Astro.props;
     gap: var(--spacing-12);
   }
 
+  @media (max-width: 1024px) {
+    .project__container {
+      flex-direction: column;
+    }
+  }
+
   .project__thumbnail {
-    min-width: var(--width-md);
+    width: var(--width-md);
+    min-width: 40%;
     align-self: stretch;
 
     border-radius: var(--b-radius-xl);
     background: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 1024px) {
+    .project__thumbnail {
+      width: 100%;
+      height: 50vw;
+    }
   }
 
   .project__info {
@@ -62,6 +75,7 @@ const { title = "Title", description, tags } = Astro.props;
 
   .project__tags {
     display: flex;
+    flex-wrap: wrap;
     gap: var(--spacing-4);
   }
 </style>

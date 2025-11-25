@@ -3,7 +3,11 @@ import "../styles/tokens.css";
 import "../styles/reset.css";
 import "../styles/globals.css";
 import Background from "../components/Background.astro";
-import Footer from "../components/Footer.astro";
+import Footer from "../components/Sections/Footer.astro";
+
+interface Props {
+  title?: string;
+}
 
 const { title = "Mustafa Al-Azzawe | Frontend Developer & Designer" } =
   Astro.props;
@@ -36,5 +40,65 @@ const { title = "Mustafa Al-Azzawe | Frontend Developer & Designer" } =
   body {
     position: relative;
     min-height: 100vh;
+  }
+
+  section,
+  footer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    padding: var(--spacing-64) var(--spacing-128);
+  }
+
+  section .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-24);
+
+    width: 100%;
+    max-width: var(--width-3xl);
+  }
+
+  footer .container {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-64);
+
+    width: 100%;
+    max-width: var(--width-3xl);
+  }
+
+  @media (max-width: 1280px) {
+    section,
+    footer {
+      padding: var(--spacing-32) var(--spacing-64);
+    }
+  }
+
+  @media (max-width: 1024px) {
+    section,
+    footer {
+      padding: var(--spacing-16) var(--spacing-32);
+    }
+
+    section .container {
+      gap: var(--spacing-20);
+    }
+
+    footer .container {
+      gap: var(--spacing-32);
+    }
+    
+    footer {
+      margin-top: var(--spacing-16);
+    }
+  }
+
+  @media (max-width: 480px) {
+    section,
+    footer {
+      padding: var(--spacing-16);
+    }
   }
 </style>

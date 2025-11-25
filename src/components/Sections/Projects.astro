@@ -1,0 +1,134 @@
+---
+import ProjectCard from "../ProjectCard.astro";
+
+type TProjectType = "Development" | "Design" | "Game";
+type TProjectStatus = "Ongoing" | "Work in Progress" | "Completed";
+
+export type TProject = {
+  type: TProjectType;
+  status: TProjectStatus;
+  title: string;
+  description: string;
+  tags: string[];
+};
+
+const projects: TProject[] = [
+  {
+    type: "Development",
+    status: "Work in Progress",
+    title: "Pebble: Personal Expense Tracker",
+    description:
+      "Manual-first expense tracker solving onboarding drop-off. Reduces friction, increases financial mindfulness, respects privacy—banking-grade interface.",
+    tags: ["Angular", "Spring Boot", "PostgreSQL"],
+  },
+  {
+    type: "Development",
+    status: "Completed",
+    title: "Semantic Design System",
+    description:
+      "Comprehensive design system with real-time color generation, semantic tokens, and accessibility compliance for  streamlined design workflows.",
+    tags: ["HTML", "CSS", "Javascript"],
+  },
+  {
+    type: "Development",
+    status: "Completed",
+    title: "Devil Fruit Database",
+    description:
+      "Full-stack web application with React TypeScript frontend and FastAPI backend.",
+    tags: [
+      "React",
+      "Typescript",
+      "FastAPI",
+      "PostgreSQL",
+      "Docker",
+      "Google Cloud Platform",
+    ],
+  },
+  {
+    type: "Design",
+    status: "Ongoing",
+    title: "Juniper Design System",
+    description:
+      "An ever evolving set of custom primitives, design tokens, and components that I use across all my projects.",
+    tags: ["Figma", "UI/UX Design", "Design Systems", "WCAG"],
+  },
+];
+
+const groupedProjects = projects.reduce(
+  (acc, project) => {
+    acc[project.type] = acc[project.type] || [];
+    acc[project.type].push(project);
+
+    return acc;
+  },
+  {} as Record<TProjectType, TProject[]>
+);
+---
+
+<section id="projects" class="projects">
+  <div class="container">
+    <h2 class="projects__title">Projects</h2>
+    {
+      (Object.keys(groupedProjects) as TProjectType[]).map((projectType) => (
+        <div class="projects__section">
+          <h5 class="projects__section__title">{projectType}</h5>
+          <div class="project__cards">
+            {groupedProjects[projectType].map((project) => (
+              <ProjectCard
+                type={project.type}
+                status={project.status}
+                title={project.title}
+                description={project.description}
+                tags={project.tags}
+              />
+            ))}
+          </div>
+        </div>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .projects__section {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-16);
+  }
+
+  .project__cards {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+
+  .divider {
+    height: 1px;
+    background-color: var(--border-secondary);
+  }
+</style>
+
+<!-- 
+
+    <div class="projects__section projects__development">
+      <h5 class="projects__section__title">Development</h5>
+      <div class="projects__cards">
+        <ProjectCard type="Development" />
+        <div class="divider"></div>
+        <ProjectCard />
+        <div class="divider"></div>
+        <ProjectCard />
+      </div>
+    </div>
+    <div class="projects__section projects__design">
+      <h5 class="projects__section__title">Design</h5>
+      <div class="projects__cards">
+        <ProjectCard />
+        <div class="divider"></div>
+        <ProjectCard />
+        <div class="divider"></div>
+        <ProjectCard />
+      </div>
+    </div>
+
+-->

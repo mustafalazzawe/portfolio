@@ -154,4 +154,9 @@
   --b-radius-2xl: 1rem;
   --b-radius-3xl: 1.5rem;
   --b-radius-full: 9999px;
+
+  /* Border stroke width */
+  --b-width-sm: 1px; 
+  --b-width-md: 2px; 
+  --b-width-lg: 4px; 
 }
