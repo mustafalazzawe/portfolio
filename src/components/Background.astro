@@ -42,20 +42,25 @@
     z-index: -1;
   }
 
-  /* @media (prefers-reduced-motion: reduce) {
+  @media (max-width: 376px) {
     .noise {
-      display: none;
+      filter: none;
+      background: rgba(255, 255, 255, 0.04);
     }
-  } */
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .noise {
+      filter: none;
+      background: rgba(255, 255, 255, 0.04);
+    }
+  }
 
   .glow {
     position: absolute;
 
     width: 75vw;
-    height: 75vw;
-
     max-width: 1024px;
-    max-height: 1024px;
+    min-width: 376px;
 
     aspect-ratio: 1/1;
 
@@ -86,10 +91,7 @@
     right: -128px;
 
     width: 85vw;
-    height: 85vw;
-
     max-width: 1256px;
-    max-height: 1256px;
 
     background: rgba(39, 66, 86, 0.2);
   }
