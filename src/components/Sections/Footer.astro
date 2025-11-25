@@ -1,5 +1,5 @@
 ---
-import Icon from "./Icons/Icon.astro";
+import Icon from "../Icons/Icon.astro";
 ---
 
 <footer>
@@ -55,18 +55,22 @@ import Icon from "./Icons/Icon.astro";
 
 <style>
   footer {
+    width: 100%;
+
     background-color: var(--bg-primary);
   }
 
   a {
+    display: flex;
+    align-items: center;
     text-decoration: none;
     color: var(--fg-primary);
   }
 
-  .container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-64);
+  @media (max-width: 1024px) {
+    a {
+      min-height: 44px;
+    }
   }
 
   .footer__body {
@@ -78,6 +82,13 @@ import Icon from "./Icons/Icon.astro";
   .footer__body .top {
     display: flex;
     justify-content: space-between;
+  }
+
+  @media (max-width: 480px) {
+    .footer__body .top {
+      flex-direction: column;
+      gap: var(--spacing-8);
+    }
   }
 
   .email__container,
@@ -115,9 +126,23 @@ import Icon from "./Icons/Icon.astro";
     gap: var(--spacing-8);
   }
 
+  @media (max-width: 480px) {
+    .bottom__nav {
+      flex-direction: column;
+    }
+  }
+
   .bottom__info {
     display: flex;
     justify-content: space-between;
+  }
+
+  @media (max-width: 480px) {
+    .bottom__info {
+      flex-direction: column;
+      align-items: center;
+      gap: var(--spacing-8);
+    }
   }
 
   .location__text {
