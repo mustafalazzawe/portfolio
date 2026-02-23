@@ -8,7 +8,9 @@ import type {
 import ArrowUpRight from "./src/ArrowUpRight.astro";
 import Github from "./src/Github.astro";
 import GithubAlt from "./src/GithubAlt.astro";
+import LinkedIn from "./src/LinkedIn.astro";
 import MapleLeaf from "./src/MapleLeaf.astro";
+import Resume from "./src/Resume.astro";
 
 interface Props extends IIconComponentProps {}
 
@@ -18,7 +20,9 @@ const icons: Record<TIconName, TIconComponent> = {
   "arrow-up-right": ArrowUpRight,
   "github": Github,
   "github-alt": GithubAlt,
+  "linkedin": LinkedIn,
   "maple-leaf": MapleLeaf,
+  "resume": Resume,
 };
 
 const IconComponent = icons[name];

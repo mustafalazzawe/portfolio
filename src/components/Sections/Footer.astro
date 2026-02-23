@@ -20,19 +20,21 @@ import Icon from "../Icons/Icon.astro";
             <a
               href="http://github.com/mustafalazzawe"
               target="_blank"
-              rel="noopener noreferrer">Github</a
+              rel="noopener noreferrer"
+              ><span>Github <Icon name="github-alt" size={20} /></span></a
             >
             <a
               href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/"
               target="_blank"
               rel="noopener noreferrer"
             >
-              Linkedin
+              <span>Linkedin <Icon name="linkedin" size={20} /></span>
             </a>
             <a
               href="/mustafa_alazzawe_resume_2026Q1-F-UX.pdf"
               target="_blank"
-              rel="noopener noreferrer">Resume / CV</a
+              rel="noopener noreferrer"
+              ><span>Resume / CV <Icon name="resume" size={20} /></span></a
             >
           </div>
         </div>
@@ -51,7 +53,9 @@ import Icon from "../Icons/Icon.astro";
               Toronto, Ontario, Canada
             </span>
           </div>
-          <div class="copyright">© 2025 Mustafa Al-Azzawe</div>
+          <div class="copyright">
+            © {new Date().getFullYear()} Mustafa Al-Azzawe
+          </div>
         </div>
       </div>
     </div>
@@ -63,6 +67,10 @@ import Icon from "../Icons/Icon.astro";
     width: 100%;
 
     background-color: var(--bg-primary);
+  }
+
+  footer a {
+    text-decoration: none;
   }
 
   .footer__body {

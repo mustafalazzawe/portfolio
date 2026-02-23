@@ -84,6 +84,12 @@ a:active {
   color: var(--interactive-active);
 }
 
+a span {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
+}
+
 @media (max-width: 1024px) {
   a {
     min-height: 44px;

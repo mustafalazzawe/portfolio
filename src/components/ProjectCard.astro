@@ -20,9 +20,11 @@ const { title, description, tags, thumbnail, repoURL, liveURL } = Astro.props;
       <div class="project__text">
         <span class="project__header">
           <p class="project__title">{title}</p>
-          <span class="project__arrow">
-            <Icon name="arrow-up-right" />
-          </span>
+          {liveURL && (
+            <span class="project__arrow">
+              <Icon name="arrow-up-right" />
+            </span>
+          )}
         </span>
         <p class="project__description">
           {description}
@@ -37,7 +39,7 @@ const { title, description, tags, thumbnail, repoURL, liveURL } = Astro.props;
     <div class="project__actions">
       {repoURL && (
         <a href={repoURL} target="_blank" rel="noopener noreferrer" class="interactive btn btn-label">
-          View Github <Icon name="github-alt" size={16}/>
+          View Github <Icon name="github-alt" size={20}/>
         </a>
       )}
     </div>
