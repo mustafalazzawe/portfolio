@@ -10,9 +10,9 @@ html {
 
 body {
   font-family: var(--font-family-base);
-  font-size: var(--font-size-body-md);
+  font-size: var(--font-size-body-lg);
   font-weight: var(--font-weight-regular);
-  line-height: var(--line-height-body-md);
+  line-height: var(--line-height-body-lg);
   color: var(--fg-primary);
   background-color: var(--bg-canvas);
 }
@@ -58,8 +58,42 @@ h5 {
   letter-spacing: var(--letter-spacing-xs);
 }
 
+h6 {
+  font-family: var(--font-family-body);
+
+  font-size: var(--font-size-header-sm);
+  font-weight: var(--font-weight-medium);
+  line-height: var(--line-height-header-md);
+}
+
 p {
   max-width: 75ch;
+}
+
+a {
+  color: var(--interactive-foreground);
+
+  text-decoration: underline;
+}
+
+a:hover {
+  color: var(--interactive-foreground-hover);
+}
+
+a:active {
+  color: var(--interactive-active);
+}
+
+@media (max-width: 1024px) {
+  a {
+    min-height: 44px;
+  }
+}
+
+button span {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
 }
 
 .text-body-header {
@@ -136,4 +170,19 @@ p {
 
 .btn-secondary:active {
   background-color: var(--interactive-secondary-active);
+}
+
+.btn-label {
+  padding: var(--spacing-6) 0;
+
+  background: none;
+  color: var(--interactive-foreground);
+}
+
+.btn-label:hover {
+  color: var(--interactive-foreground-hover);
+}
+
+.btn-label:active {
+  color: var(--interactive-foreground-active);
 }

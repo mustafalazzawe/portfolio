@@ -4,7 +4,7 @@ import Icon from "../Icons/Icon.astro";
 
 <footer>
   <div class="container">
-    <h1 class="footer__title">Let's Connect</h1>
+    <h2 class="footer__title">Get in touch</h2>
     <div class="footer__body">
       <div class="top">
         <div class="email__container">
@@ -17,11 +17,23 @@ import Icon from "../Icons/Icon.astro";
         <div class="socials__container">
           <div class="socials__header">Links</div>
           <div class="socials__items">
-            <a href="http://github.com/mustafalazzawe" target="_blank">Github</a>
-            <a href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/" target="_blank">
+            <a
+              href="http://github.com/mustafalazzawe"
+              target="_blank"
+              rel="noopener noreferrer">Github</a
+            >
+            <a
+              href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
               Linkedin
             </a>
-            <a href="/mustafa_alazzawe_resume_Q4-F-UX.pdf" target="_blank">Resume / CV</a>
+            <a
+              href="/mustafa_alazzawe_resume_2026Q1-F-UX.pdf"
+              target="_blank"
+              rel="noopener noreferrer">Resume / CV</a
+            >
           </div>
         </div>
       </div>
@@ -29,14 +41,6 @@ import Icon from "../Icons/Icon.astro";
       <div class="divider"></div>
 
       <div class="bottom">
-        <div class="bottom__nav">
-          <a href="#home">Home</a>
-          <a href="#projects">Projects</a>
-          <a href="#about">About</a>
-          <a href="#experience">Experience</a>
-          <a href="#contact">Contact</a>
-        </div>
-
         <div class="bottom__info">
           <div class="location">
             <span class="location__text">
@@ -59,19 +63,6 @@ import Icon from "../Icons/Icon.astro";
     width: 100%;
 
     background-color: var(--bg-primary);
-  }
-
-  a {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: var(--fg-primary);
-  }
-
-  @media (max-width: 1024px) {
-    a {
-      min-height: 44px;
-    }
   }
 
   .footer__body {

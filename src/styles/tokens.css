@@ -52,6 +52,9 @@
   --interactive-secondary: var(--color-neutral-50);
   --interactive-secondary-hover: var(--color-neutral-100);
   --interactive-secondary-active: var(--color-neutral-50);
+  --interactive-foreground: var(--color-primary-400);
+  --interactive-foreground-hover: var(--color-primary-500);
+  --interactive-foreground-active: var(--color-primary-400);
   --interactive-focus: var(--primary-alpha);
 
   /* Border colors */

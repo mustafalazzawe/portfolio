@@ -1,4 +1,4 @@
-export type TIconName = "maple-leaf";
+export type TIconName = "arrow-up-right" | "github" | "github-alt" | "maple-leaf";
 
 export interface IIconProps {
   size?: number;

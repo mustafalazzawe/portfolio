@@ -1,36 +1,101 @@
 ---
+import Icon from "./Icons/Icon.astro";
 import type { TProject } from "./Sections/Projects.astro";
 import Tag from "./Tag.astro";
 
 interface Props extends TProject {}
 
-const { type, status, title, description, tags } = Astro.props;
+const { title, description, tags, thumbnail, repoURL, liveURL } = Astro.props;
 ---
 
 <div class="project__container">
-  <div class="project__thumbnail"></div>
+  {liveURL && (
+    <a href={liveURL} target="_blank" rel="noopener noreferrer" class="project__link interactive" aria-label={title}></a>
+  )}
+  <div class="project__thumbnail">
+    {thumbnail && <img class="project__thumbnail__img" src={thumbnail} alt={title} />}
+  </div>
   <div class="project__info">
     <div class="project__body">
       <div class="project__text">
-        <p class="text-body-header project__title">{title}</p>
+        <span class="project__header">
+          <p class="project__title">{title}</p>
+          <span class="project__arrow">
+            <Icon name="arrow-up-right" />
+          </span>
+        </span>
         <p class="project__description">
           {description}
         </p>
       </div>
+
       <div class="project__tags">
         {tags.map((tag) => <Tag label={tag} />)}
       </div>
     </div>
+
     <div class="project__actions">
-      <button class="interactive btn btn-primary">View Project</button>
+      {repoURL && (
+        <a href={repoURL} target="_blank" rel="noopener noreferrer" class="interactive btn btn-label">
+          View Github <Icon name="github-alt" size={16}/>
+        </a>
+      )}
     </div>
   </div>
 </div>
 
 <style>
   .project__container {
+    position: relative;
+
     display: flex;
     gap: var(--spacing-12);
+
+    padding: var(--spacing-12);
+    margin-inline: calc(-1 * var(--spacing-12));
+
+    border-radius: var(--b-radius-3xl);
+
+    transition: opacity 0.2s ease;
+  }
+
+  .project__container::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    padding: 1px;
+
+    border-radius: inherit;
+
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.03) 35%,
+      rgba(255, 255, 255, 0) 65%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
+    opacity: 0;
+
+    transition: opacity 0.2s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .project__container:hover::after,
+    .project__container.is-active::after {
+      opacity: 1;
+    }
+
+    :global(.project__cards.has-active) .project__container:not(.is-active) {
+      opacity: 0.4;
+    }
   }
 
   @media (max-width: 1024px) {
@@ -40,12 +105,17 @@ const { type, status, title, description, tags } = Astro.props;
   }
 
   .project__thumbnail {
+    position: relative;
+    overflow: hidden;
+
     width: var(--width-md);
     min-width: 40%;
     align-self: stretch;
 
     border-radius: var(--b-radius-xl);
-    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--border-secondary);
+
+    background-color: var(--bg-secondary);
   }
 
   @media (max-width: 1024px) {
@@ -55,10 +125,20 @@ const { type, status, title, description, tags } = Astro.props;
     }
   }
 
+  .project__thumbnail__img {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+
   .project__info {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-16);
+    gap: var(--spacing-8);
   }
 
   .project__body {
@@ -73,9 +153,56 @@ const { type, status, title, description, tags } = Astro.props;
     gap: var(--spacing-4);
   }
 
+  .project__header {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-6);
+  }
+
+  .project__arrow {
+    display: flex;
+
+    transition: transform 0.25s ease;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .project__container:hover .project__arrow,
+    .project__container.is-active .project__arrow {
+      transform: translate(3px, -3px);
+    }
+  }
+
+  .project__description {
+    color: var(--fg-secondary);
+  }
+
   .project__tags {
     display: flex;
     flex-wrap: wrap;
     gap: var(--spacing-4);
+  }
+
+  .project__link {
+    position: absolute;
+    inset: 0;
+
+    border-radius: inherit;
+
+    z-index: 1;
+  }
+
+  .project__actions {
+    display: flex;
+
+    height: fit-content;
+    min-height: 52px;
+  }
+
+  .project__actions a {
+    position: relative;
+
+    text-decoration: none;
+
+    z-index: 2;
   }
 </style>

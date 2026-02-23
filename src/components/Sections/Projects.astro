@@ -1,40 +1,50 @@
 ---
 import ProjectCard from "../ProjectCard.astro";
 
-type TProjectType = "Development" | "Design" | "Game";
 type TProjectStatus = "Ongoing" | "Work in Progress" | "Completed";
 
 export type TProject = {
-  type: TProjectType;
   status: TProjectStatus;
   title: string;
   description: string;
   tags: string[];
+  thumbnail?: string;
+  repoURL?: string;
+  liveURL?: string;
 };
 
 const projects: TProject[] = [
   {
-    type: "Development",
+    status: "Work in Progress",
+    title: "HUMRĀ Events",
+    description:
+      "A compatibility matching platform built end-to-end for live mixer events — research-backed algorithm, real-time admin dashboard, and synchronized match reveal. Achieved a 94% match rate in production.",
+    tags: ["HTML", "CSS", "JavaScript", "Firebase"],
+    thumbnail: "/thumbnails/humra-thumbnail.png",
+  },
+  {
     status: "Work in Progress",
     title: "Pebble: Personal Expense Tracker",
     description:
-      "Manual-first expense tracker solving onboarding drop-off. Reduces friction, increases financial mindfulness, respects privacy—banking-grade interface.",
-    tags: ["Angular", "Spring Boot", "PostgreSQL"],
+      "A mobile expense tracking app designed for financial mindfulness. Manual-first by design — no bank connections, no data sharing, just intentional awareness of where your money goes.",
+    tags: ["Figma", "Mobile Design"],
+    thumbnail: "/thumbnails/pebble-thumbnail.png",
   },
   {
-    type: "Development",
     status: "Completed",
     title: "Semantic Design System",
     description:
-      "Comprehensive design system with real-time color generation, semantic tokens, and accessibility compliance for  streamlined design workflows.",
+      "A color tooling system with real-time contrast validation and semantic token generation. Built to WCAG and AODA standards, with automated deployment via GitHub Actions CI/CD.",
     tags: ["HTML", "CSS", "Javascript"],
+    thumbnail: "/thumbnails/sds-thumbnail.png",
+    repoURL: "https://github.com/mustafalazzawe/design-system",
+    liveURL: "https://mustafalazzawe.github.io/design-system/",
   },
   {
-    type: "Development",
     status: "Completed",
     title: "Devil Fruit Database",
     description:
-      "Full-stack web application with React TypeScript frontend and FastAPI backend.",
+      "A reference database for One Piece's Devil Fruits, built full-stack with a React TypeScript frontend and FastAPI backend. Containerized with Docker and deployed on Google Cloud Platform.",
     tags: [
       "React",
       "Typescript",
@@ -43,63 +53,94 @@ const projects: TProject[] = [
       "Docker",
       "Google Cloud Platform",
     ],
+    thumbnail: "/thumbnails/dfa-thumbnail.png",
+    repoURL: "https://github.com/mustafalazzawe/devil-fruit-database",
+    liveURL: "https://mustafalazzawe.github.io/devil-fruit-database/",
   },
   {
-    type: "Design",
     status: "Ongoing",
     title: "Juniper Design System",
     description:
-      "An ever evolving set of custom primitives, design tokens, and components that I use across all my projects.",
+      "A personal design system of primitives, tokens, and components I maintain across my own projects. Built with accessibility compliance and scalability in mind from the ground up.",
     tags: ["Figma", "UI/UX Design", "Design Systems", "WCAG"],
+    thumbnail: "/thumbnails/jds-thumbnail.png",
   },
 ];
-
-const groupedProjects = projects.reduce(
-  (acc, project) => {
-    acc[project.type] = acc[project.type] || [];
-    acc[project.type].push(project);
-
-    return acc;
-  },
-  {} as Record<TProjectType, TProject[]>
-);
 ---
 
 <section id="projects" class="projects">
   <div class="container">
-    <h2 class="projects__title">Projects</h2>
-    {
-      (Object.keys(groupedProjects) as TProjectType[]).map((projectType) => (
-        <div class="projects__section">
-          <h5 class="projects__section__title">{projectType}</h5>
-          <div class="project__cards">
-            {groupedProjects[projectType].map((project) => (
-              <ProjectCard
-                type={project.type}
-                status={project.status}
-                title={project.title}
-                description={project.description}
-                tags={project.tags}
-              />
-            ))}
-          </div>
-        </div>
-      ))
-    }
+    <h6 class="projects__title">Projects</h6>
+    <div class="project__cards">
+      <div class="project__highlight"></div>
+      {projects.map((project) => (
+        <ProjectCard
+          status={project.status}
+          title={project.title}
+          description={project.description}
+          tags={project.tags}
+          thumbnail={project.thumbnail}
+          repoURL={project.repoURL}
+          liveURL={project.liveURL}
+        />
+      ))}
+    </div>
   </div>
 </section>
 
 <style>
-  .projects__section {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-16);
-  }
-
   .project__cards {
+    position: relative;
+
     display: flex;
     flex-direction: column;
     gap: var(--spacing-12);
+  }
+
+  .project__highlight {
+    position: absolute;
+    top: 0;
+    left: calc(-1 * var(--spacing-12));
+    right: calc(-1 * var(--spacing-12));
+
+    border-radius: var(--b-radius-3xl);
+
+    background-color: rgba(20, 27, 35, 0.2);
+
+    backdrop-filter: blur(24px) saturate(160%);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+
+    box-shadow:
+      0px 8px 32px 0px rgba(0, 0, 0, 0.2),
+      0px 2px 8px 0px rgba(0, 0, 0, 0.12);
+
+    pointer-events: none;
+    opacity: 0;
+  }
+
+  .project__highlight::after {
+    content: "";
+
+    position: absolute;
+    inset: 0;
+
+    padding: 1px;
+
+    border-radius: inherit;
+
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.1) 0%,
+      rgba(255, 255, 255, 0.03) 35%,
+      rgba(255, 255, 255, 0) 65%,
+      rgba(255, 255, 255, 0.02) 100%
+    );
+
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+
+    pointer-events: none;
   }
 
   .divider {
@@ -107,3 +148,70 @@ const groupedProjects = projects.reduce(
     background-color: var(--border-secondary);
   }
 </style>
+
+<script>
+  import gsap from "gsap";
+
+  // Astro module scripts are deferred — DOM is ready when this runs.
+  // No need for astro:page-load since this project has no View Transitions.
+  const cardLists =
+    document.querySelectorAll<HTMLElement>(".project__cards");
+
+  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+
+  if (canHover) {
+    cardLists.forEach((list) => {
+      const highlight = list.querySelector<HTMLElement>(".project__highlight");
+      if (!highlight) return;
+
+      const cards = list.querySelectorAll<HTMLElement>(".project__container");
+
+      const quickY = gsap.quickTo(highlight, "y", {
+        duration: 0.35,
+        ease: "power4.out",
+      });
+
+      const quickOpacity = gsap.quickTo(highlight, "opacity", {
+        duration: 0.2,
+        ease: "power2.out",
+      });
+
+      let isFirstHover = true;
+      let activeCard: HTMLElement | null = null;
+
+      list.addEventListener("mousemove", (e: MouseEvent) => {
+        const target = e.target as HTMLElement;
+        const hoveredCard = target.closest<HTMLElement>(".project__container");
+
+        if (!hoveredCard || hoveredCard === activeCard) return;
+
+        activeCard = hoveredCard;
+
+        cards.forEach((card) => card.classList.remove("is-active"));
+        hoveredCard.classList.add("is-active");
+        list.classList.add("has-active");
+
+        const cardTop = hoveredCard.offsetTop;
+        const cardHeight = hoveredCard.offsetHeight;
+
+        if (isFirstHover) {
+          gsap.set(highlight, { y: cardTop, height: cardHeight });
+          quickOpacity(1);
+          isFirstHover = false;
+        } else {
+          quickY(cardTop);
+          gsap.set(highlight, { height: cardHeight });
+          quickOpacity(1);
+        }
+      });
+
+      list.addEventListener("mouseleave", () => {
+        quickOpacity(0);
+        cards.forEach((card) => card.classList.remove("is-active"));
+        list.classList.remove("has-active");
+        isFirstHover = true;
+        activeCard = null;
+      });
+    });
+  }
+</script>
