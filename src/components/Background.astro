@@ -55,6 +55,15 @@
     }
   }
 
+  @media not all and (min-resolution: 0.001dpcm) {
+    @supports (-webkit-touch-callout: none) {
+      .noise {
+        filter: none;
+        background: rgba(255, 255, 255, 0.04);
+      }
+    }
+  }
+
   .glow {
     position: absolute;
 
