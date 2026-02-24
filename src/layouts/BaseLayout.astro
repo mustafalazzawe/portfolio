@@ -10,8 +10,7 @@ interface Props {
   title?: string;
 }
 
-const { title = "Mustafa Al-Azzawe | Design Engineer" } =
-  Astro.props;
+const { title = "Mustafa Al-Azzawe | Design Engineer" } = Astro.props;
 ---
 
 <html lang="en">
@@ -19,6 +18,11 @@ const { title = "Mustafa Al-Azzawe | Design Engineer" } =
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
+
+    <meta
+      name="description"
+      content="Mustafa Al-Azzawe is a design engineer who builds clean, accessible digital experiences, bridging development and design."
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
