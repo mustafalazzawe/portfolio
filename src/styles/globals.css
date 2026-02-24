@@ -74,6 +74,7 @@ a {
   color: var(--interactive-foreground);
 
   text-decoration: underline;
+  transition: color 180ms ease;
 }
 
 a:hover {
@@ -155,6 +156,7 @@ button span {
 .btn-primary {
   color: var(--fg-on-primary);
   background-color: var(--interactive-primary);
+  transition: background-color 180ms ease;
 }
 
 .btn-primary:hover {
@@ -168,6 +170,7 @@ button span {
 .btn-secondary {
   color: var(--fg-on-secondary);
   background-color: var(--interactive-secondary);
+  transition: background-color 180ms ease;
 }
 
 .btn-secondary:hover {
@@ -183,6 +186,7 @@ button span {
 
   background: none;
   color: var(--interactive-foreground);
+  transition: color 180ms ease;
 }
 
 .btn-label:hover {

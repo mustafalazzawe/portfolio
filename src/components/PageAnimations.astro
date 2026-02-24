@@ -1,0 +1,51 @@
+<script>
+  import gsap from "gsap";
+  import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  // ─── Hero ───────────────────────────────────────────────
+  gsap.timeline({ defaults: { ease: "power2.out", duration: 0.55 } })
+    .from(".hero__greeting",    { opacity: 0, y: 12 }, 0.15)
+    .from(".hero__title",       { opacity: 0, y: 20 }, 0.3)
+    .from(".hero__description", { opacity: 0, y: 12, stagger: 0.12 }, 0.45)
+    .from(".hero__canvas",      { opacity: 0, duration: 0.8 }, 0.5);
+
+  // ─── Scroll helper ────────────────────────────────────────────────────────────
+  const scrollFrom = (
+    targets: string,
+    vars: gsap.TweenVars,
+    trigger?: string
+  ) =>
+    gsap.from(targets, {
+      opacity: 0,
+      y: 24,
+      duration: 0.55,
+      ease: "power2.out",
+      ...vars,
+      scrollTrigger: {
+        trigger: trigger ?? targets,
+        start: "top 88%",
+        once: true,
+      },
+    });
+
+  // ─── About ───────────────────────────────────────────────────────────────────
+  scrollFrom(".about__title", {});
+  scrollFrom(".about__image", { delay: 0.05 });
+  scrollFrom(".about__text p", { stagger: 0.08 }, ".about__text");
+
+  // ─── Projects ─────────────────────────────────────────────────────────────────
+  scrollFrom(".projects__title", {});
+  scrollFrom(".project__cards", { y: 32 });
+
+  // ─── Experience ──────────────────────────────────────────────────────────────
+  // .timeline__line--progress is handled by Experience.astro's scrub — untouched
+  scrollFrom(".experience__title", {});
+  scrollFrom(".timeline__item", { stagger: 0.1 }, ".experience__items");
+
+  // ─── Footer ──────────────────────────────────────────────────────────────────
+  scrollFrom(".footer__title", {});
+  scrollFrom(".email__container", { delay: 0.05 });
+  scrollFrom(".socials__container", { delay: 0.1 });
+</script>
