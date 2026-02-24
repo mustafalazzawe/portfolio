@@ -1,11 +1,14 @@
 ---
+import { Image } from "astro:assets";
 import Icon from "./Icons/Icon.astro";
-import type { TProject } from "./Sections/Projects.astro";
 import Tag from "./Tag.astro";
+import type { TProject } from "./Sections/Projects.astro";
 
-interface Props extends TProject {}
+interface Props extends TProject {
+  index?: number;
+}
 
-const { title, description, tags, thumbnail, repoURL, liveURL } = Astro.props;
+const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Astro.props;
 ---
 
 <div class="project__container">
@@ -13,16 +16,22 @@ const { title, description, tags, thumbnail, repoURL, liveURL } = Astro.props;
     <a href={liveURL} target="_blank" rel="noopener noreferrer" class="project__link interactive" aria-label={title}></a>
   )}
   <div class="project__thumbnail">
-    {thumbnail && <img class="project__thumbnail__img" src={thumbnail} alt={title} />}
+    {thumbnail && (
+      index === 0
+        ? <Image class="project__thumbnail__img" src={thumbnail} alt={title} loading="eager" fetchpriority="high" />
+        : <Image class="project__thumbnail__img" src={thumbnail} alt={title} loading="lazy" decoding="async" />
+    )}
   </div>
   <div class="project__info">
     <div class="project__body">
       <div class="project__text">
         <span class="project__header">
           <p class="project__title">{title}</p>
-          <span class="project__arrow">
-            <Icon name="arrow-up-right" />
-          </span>
+          {liveURL && (
+            <span class="project__arrow">
+              <Icon name="arrow-up-right" />
+            </span>
+          )}
         </span>
         <p class="project__description">
           {description}
@@ -37,7 +46,7 @@ const { title, description, tags, thumbnail, repoURL, liveURL } = Astro.props;
     <div class="project__actions">
       {repoURL && (
         <a href={repoURL} target="_blank" rel="noopener noreferrer" class="interactive btn btn-label">
-          View Github <Icon name="github-alt" size={16}/>
+          View Github <Icon name="github-alt" size={20}/>
         </a>
       )}
     </div>

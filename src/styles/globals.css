@@ -74,6 +74,7 @@ a {
   color: var(--interactive-foreground);
 
   text-decoration: underline;
+  transition: color 180ms ease;
 }
 
 a:hover {
@@ -82,6 +83,12 @@ a:hover {
 
 a:active {
   color: var(--interactive-active);
+}
+
+a span {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4);
 }
 
 @media (max-width: 1024px) {
@@ -149,6 +156,7 @@ button span {
 .btn-primary {
   color: var(--fg-on-primary);
   background-color: var(--interactive-primary);
+  transition: background-color 180ms ease;
 }
 
 .btn-primary:hover {
@@ -162,6 +170,7 @@ button span {
 .btn-secondary {
   color: var(--fg-on-secondary);
   background-color: var(--interactive-secondary);
+  transition: background-color 180ms ease;
 }
 
 .btn-secondary:hover {
@@ -177,6 +186,7 @@ button span {
 
   background: none;
   color: var(--interactive-foreground);
+  transition: color 180ms ease;
 }
 
 .btn-label:hover {
