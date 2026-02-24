@@ -162,5 +162,14 @@ export const createBobble = (
     }
   };
 
-  return { update };
+  // Programmatic spring kick — wakes the physics and tilts the head left,
+  // demonstrating the spring without any user interaction.
+  const nudge = () => {
+    if (isDragging) return;
+    sleeping = false;
+    velX = 1.8;
+    velZ = -0.6;
+  };
+
+  return { update, nudge };
 };

@@ -72,10 +72,8 @@ import Canvas from "../Canvas.astro";
   }
 
   .hero__canvas {
-    flex-shrink: 0;
-    
-    width: 480px;
-    height: 480px;
+    width: min(480px, 100%);
+    aspect-ratio: 1;
 
     margin: 0 auto;
   }

@@ -15,7 +15,7 @@
 <script>
   import * as THREE from "three";
   import { createScene } from "../lib/three/scene";
-  import { createCamera, FRUSTUM_SIZE } from "../lib/three/camera";
+  import { createCamera } from "../lib/three/camera";
   import { createRenderer } from "../lib/three/renderer";
   import { createControls } from "../lib/three/controls";
   import { createLights } from "../lib/three/lights";
@@ -33,11 +33,7 @@
   scene.add(...lights);
 
   const onResize = () => {
-    const aspect = canvas.clientWidth / canvas.clientHeight;
-    camera.left = (-FRUSTUM_SIZE * aspect) / 2;
-    camera.right = (FRUSTUM_SIZE * aspect) / 2;
-    camera.top = FRUSTUM_SIZE / 2;
-    camera.bottom = -FRUSTUM_SIZE / 2;
+    camera.aspect = canvas.clientWidth / canvas.clientHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
   };
@@ -46,12 +42,19 @@
 
   const clock = new THREE.Clock();
   let bobble: ReturnType<typeof createBobble> | null = null;
+  let model: THREE.Group | null = null;
+  let baseModelY = 0;
   let rafId: number | null = null;
 
   const tick = () => {
     rafId = requestAnimationFrame(tick);
     const delta = clock.getDelta();
     bobble?.update(delta);
+    
+    // Idle float — gentle sine wave on model Y, decoupled from bobble physics
+    if (model) {
+      model.position.y = baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
+    }
     renderer.render(scene, camera);
   };
 
@@ -67,16 +70,36 @@
     }
   }).observe(canvas);
 
-  loadMoose().then((model) => {
-    const box = new THREE.Box3().setFromObject(model);
+  // Stop auto-nudging once user has dragged the head
+  let hasInteracted = false;
+  canvas.addEventListener("pointerdown", () => { hasInteracted = true; }, { once: true });
+
+  loadMoose().then((m) => {
+    const box = new THREE.Box3().setFromObject(m);
     const center = box.getCenter(new THREE.Vector3());
-    model.position.sub(center);
-    scene.add(model);
+    m.position.sub(center);
+
+    m.rotation.y = -(Math.PI / 18); 
+
+    baseModelY = m.position.y;
+    model = m;
+    scene.add(m);
 
     let headBone: THREE.Bone | null = null;
-    model.traverse((obj) => {
+    m.traverse((obj) => {
       if (obj instanceof THREE.Bone && obj.name === "Head") headBone = obj;
     });
     if (headBone) bobble = createBobble(headBone, canvas, camera);
+
+    // Auto-nudge — demonstrates spring physics if user hasn't interacted yet
+    const scheduleNudge = (delay: number) => {
+      setTimeout(() => {
+        if (!hasInteracted) {
+          bobble?.nudge();
+          scheduleNudge(60000);
+        }
+      }, delay);
+    };
+    scheduleNudge(2500);
   });
 </script>
