@@ -1,35 +1,48 @@
 ---
-
+import Canvas from "../Canvas.astro";
 ---
 
 <section id="home" class="hero">
   <div class="container">
-    <div class="hero__content">
-      <div class="hero__header">
-        <h4 class="hero__greeting">Hi, I'm Mustafa</h4>
-        <h2 class="hero__title">Design Engineer</h2>
+    <div class="hero__layout">
+      <div class="hero__content">
+        <div class="hero__header">
+          <h4 class="hero__greeting">Hi, I'm Mustafa</h4>
+          <h2 class="hero__title">Design Engineer</h2>
+        </div>
+
+        <div class="hero__body">
+          <p class="hero__description">
+            I build clean, accessible experiences where every detail is
+            intentional.
+          </p>
+          <p class="hero__description">
+            I co-founded <a href="">Everything in Creation</a>, a design and development agency,
+            and currently consult as a Design Engineer at <a href="">HUMRĀ</a>.
+          </p>
+        </div>
       </div>
 
-      <div class="hero__body">
-        <p class="hero__description">
-          I build clean, accessible experiences where every detail is
-          intentional.
-        </p>
-        <p class="hero__description">
-          I co-founded <a href="">Everything in Creation</a>, a design and development agency,
-          and currently consult as a Design Engineer at <a href="">HUMRĀ</a>.
-        </p>
+      <div class="hero__canvas">
+        <Canvas />
       </div>
     </div>
   </div>
 </section>
 
 <style>
+  .hero__layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--spacing-24);
+  }
+
   .hero__content {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-24);
 
+    align-self: start;
     max-width: var(--width-xl);
   }
 
@@ -50,11 +63,26 @@
   }
 
   .hero__description {
-    color: var(--fg-secondary)
+    color: var(--fg-secondary);
   }
 
   .hero__actions {
     display: flex;
     gap: var(--spacing-4);
+  }
+
+  .hero__canvas {
+    flex-shrink: 0;
+    
+    width: 480px;
+    height: 480px;
+
+    margin: 0 auto;
+  }
+
+  @media (max-width: 1024px) {
+    .hero__layout {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
