@@ -13,7 +13,7 @@ export const createLights = () => {
   fill.position.set(3, 1, 3);
 
   // Rim light — behind and slightly above, pale teal to match brand palette
-  const rim = new THREE.DirectionalLight(0x99d0e0, 1.2);
+  const rim = new THREE.DirectionalLight(0x99d0e0, 0.05);
   rim.position.set(0, 1, -4);
 
   return [ambient, key, fill, rim] as const;

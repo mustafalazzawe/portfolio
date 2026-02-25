@@ -14,6 +14,7 @@
 
 <script>
   import * as THREE from "three";
+
   import { createScene } from "../lib/three/scene";
   import { createCamera } from "../lib/three/camera";
   import { createRenderer } from "../lib/three/renderer";
@@ -50,10 +51,11 @@
     rafId = requestAnimationFrame(tick);
     const delta = clock.getDelta();
     bobble?.update(delta);
-    
+
     // Idle float — gentle sine wave on model Y, decoupled from bobble physics
     if (model) {
-      model.position.y = baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
+      model.position.y =
+        baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
     }
     renderer.render(scene, camera);
   };
@@ -72,14 +74,20 @@
 
   // Stop auto-nudging once user has dragged the head
   let hasInteracted = false;
-  canvas.addEventListener("pointerdown", () => { hasInteracted = true; }, { once: true });
+  canvas.addEventListener(
+    "pointerdown",
+    () => {
+      hasInteracted = true;
+    },
+    { once: true },
+  );
 
   loadMoose().then((m) => {
     const box = new THREE.Box3().setFromObject(m);
     const center = box.getCenter(new THREE.Vector3());
     m.position.sub(center);
 
-    m.rotation.y = -(Math.PI / 18); 
+    m.rotation.y = -(Math.PI / 18);
 
     baseModelY = m.position.y;
     model = m;
