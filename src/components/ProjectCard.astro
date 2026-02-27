@@ -162,13 +162,6 @@ const {
     }
   }
 
-  @media (pointer: coarse) or (max-width: 480px) {
-    .project__container:has(.project__title-link):hover .project__thumbnail,
-    .project__container:has(.project__title-link):active .project__thumbnail {
-      border-color: var(--border-primary);
-    }
-  }
-
   @media (max-width: 1024px) {
     .project__container {
       flex-direction: column;
@@ -187,6 +180,11 @@ const {
     border: 1px solid var(--border-secondary);
 
     transition: border-color 0.3s ease;
+  }
+
+  .project__container:has(.project__title-link):hover .project__thumbnail,
+  .project__container:has(.project__title-link):active .project__thumbnail {
+    border-color: var(--border-primary);
   }
 
   .project__thumbnail__img {
