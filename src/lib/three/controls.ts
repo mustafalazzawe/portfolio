@@ -1,8 +1,8 @@
-import * as THREE from "three";
+import type { Camera } from "three";
 import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 
 export const createControls = (
-  camera: THREE.Camera,
+  camera: Camera,
   domElement: HTMLElement
 ) => {
   const controls = new OrbitControls(camera, domElement);

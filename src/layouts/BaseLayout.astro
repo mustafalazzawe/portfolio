@@ -44,6 +44,14 @@ const { title = "Mustafa Al-Azzawe | Design Engineer" } = Astro.props;
 
     <link rel="icon" type="image/png" href="/favicon.png" />
 
+    <!-- Preload 3D model -->
+    <link
+      rel="preload"
+      href="/three/models/moose-shine.glb"
+      as="fetch"
+      crossorigin
+    />
+
     <title>{title}</title>
   </head>
   <body>

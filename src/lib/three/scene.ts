@@ -1,3 +1,3 @@
-import * as THREE from "three";
+import { Scene } from "three";
 
-export const createScene = () => new THREE.Scene();
+export const createScene = () => new Scene();
