@@ -27,6 +27,25 @@
     height: 100%;
   }
 
+  .background--fallback {
+    background-color: var(--bg-canvas);
+    background-image:
+      radial-gradient(
+        ellipse 120% 80% at 100% 0%,
+        rgba(39, 66, 86, 0.2) 0%,
+        transparent 70%
+      ),
+      radial-gradient(
+        ellipse 120% 80% at 0% 40%,
+        rgba(139, 164, 181, 0.1) 0%,
+        transparent 70%
+      );
+  }
+
+  .background--fallback .background__canvas {
+    display: none;
+  }
+
   .background__noise {
     position: absolute;
     inset: 0;
@@ -55,22 +74,31 @@
 </style>
 
 <script>
-  const canvas = document.querySelector<HTMLCanvasElement>(
-    ".background__canvas",
-  )!;
-  const gl = canvas.getContext("webgl", { alpha: false, antialias: false })!;
+  (() => {
+    const bg = document.querySelector<HTMLDivElement>(".background")!;
+    const canvas = document.querySelector<HTMLCanvasElement>(
+      ".background__canvas",
+    )!;
 
-  // ─── Shaders ─────────────────────────────────────────────────────────────────
+    const useFallback = () => {
+      bg.classList.add("background--fallback");
+    };
 
-  const vertSrc = `
+    const _gl = canvas.getContext("webgl", { alpha: false, antialias: false });
+    if (!_gl) return useFallback();
+    const gl = _gl;
+
+    // ─── Shaders ─────────────────────────────────────────────────────────────────
+
+    const vertSrc = /* glsl */ `
     attribute vec2 a_position;
     void main() {
       gl_Position = vec4(a_position, 0.0, 1.0);
     }
   `;
 
-  const fragSrc = `
-    precision mediump float;
+    const fragSrc = /* glsl */ `
+    precision highp float;
 
     uniform vec2 u_resolution;
     uniform float u_time;
@@ -198,92 +226,107 @@
     }
   `;
 
-  // ─── WebGL setup ─────────────────────────────────────────────────────────────
+    // ─── WebGL setup ─────────────────────────────────────────────────────────────
 
-  function compile(src: string, type: number): WebGLShader {
-    const s = gl.createShader(type)!;
-    gl.shaderSource(s, src);
-    gl.compileShader(s);
-    return s;
-  }
+    function compile(src: string, type: number): WebGLShader | null {
+      const s = gl.createShader(type);
+      if (!s) return null;
+      gl.shaderSource(s, src);
+      gl.compileShader(s);
+      if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) return null;
+      return s;
+    }
 
-  const program = gl.createProgram()!;
-  gl.attachShader(program, compile(vertSrc, gl.VERTEX_SHADER));
-  gl.attachShader(program, compile(fragSrc, gl.FRAGMENT_SHADER));
-  gl.linkProgram(program);
-  gl.useProgram(program);
+    const vs = compile(vertSrc, gl.VERTEX_SHADER);
+    const fs = compile(fragSrc, gl.FRAGMENT_SHADER);
+    const program = gl.createProgram();
+    if (!vs || !fs || !program) return useFallback();
 
-  // Fullscreen quad
-  const buf = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
-  gl.bufferData(
-    gl.ARRAY_BUFFER,
-    new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
-    gl.STATIC_DRAW,
-  );
+    gl.attachShader(program, vs);
+    gl.attachShader(program, fs);
+    gl.linkProgram(program);
+    if (!gl.getProgramParameter(program, gl.LINK_STATUS)) return useFallback();
 
-  const aPos = gl.getAttribLocation(program, "a_position");
-  gl.enableVertexAttribArray(aPos);
-  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+    gl.useProgram(program);
 
-  // Uniform locations
-  const uRes = gl.getUniformLocation(program, "u_resolution");
-  const uTime = gl.getUniformLocation(program, "u_time");
-  const uMouse = gl.getUniformLocation(program, "u_mouse");
-  const uScrollY = gl.getUniformLocation(program, "u_scrollY");
+    // Fullscreen quad
+    const buf = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+    gl.bufferData(
+      gl.ARRAY_BUFFER,
+      new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
+      gl.STATIC_DRAW,
+    );
 
-  // ─── State ───────────────────────────────────────────────────────────────────
+    const aPos = gl.getAttribLocation(program, "a_position");
+    gl.enableVertexAttribArray(aPos);
+    gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
 
-  const reducedMotion = window.matchMedia(
-    "(prefers-reduced-motion: reduce)",
-  ).matches;
+    // Uniform locations
+    const uRes = gl.getUniformLocation(program, "u_resolution");
+    const uTime = gl.getUniformLocation(program, "u_time");
+    const uMouse = gl.getUniformLocation(program, "u_mouse");
+    const uScrollY = gl.getUniformLocation(program, "u_scrollY");
 
-  let mouseTarget = { x: 0.5, y: 0.5 };
-  let mouseSmooth = { x: 0.5, y: 0.5 };
-  let scrollY = 0;
-  const t0 = performance.now();
+    // ─── State ───────────────────────────────────────────────────────────────────
 
-  // ─── Resize (1x DPR — soft glows don't need retina) ─────────────────────────
+    const reducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
 
-  const resize = () => {
-    canvas.width = canvas.clientWidth;
-    canvas.height = canvas.clientHeight;
-    gl.viewport(0, 0, canvas.width, canvas.height);
-  };
-  window.addEventListener("resize", resize);
-  resize();
+    let mouseTarget = { x: 0.5, y: 0.5 };
+    let mouseSmooth = { x: 0.5, y: 0.5 };
+    let scrollY = 0;
+    const t0 = performance.now();
 
-  // ─── Mouse ───────────────────────────────────────────────────────────────────
+    // ─── Resize (1x DPR — soft glows don't need retina) ─────────────────────────
 
-  if (!reducedMotion) {
-    document.addEventListener("mousemove", (e) => {
-      mouseTarget.x = e.clientX / window.innerWidth;
-      mouseTarget.y = 1.0 - e.clientY / window.innerHeight;
-    });
-  }
+    const resize = () => {
+      canvas.width = canvas.clientWidth;
+      canvas.height = canvas.clientHeight;
+      gl.viewport(0, 0, canvas.width, canvas.height);
+    };
+    window.addEventListener("resize", resize);
+    resize();
 
-  // ─── Scroll ──────────────────────────────────────────────────────────────────
+    // ─── Mouse ───────────────────────────────────────────────────────────────────
 
-  window.addEventListener("scroll", () => { scrollY = window.scrollY; }, { passive: true });
-  scrollY = window.scrollY;
+    if (!reducedMotion) {
+      document.addEventListener("mousemove", (e) => {
+        mouseTarget.x = e.clientX / window.innerWidth;
+        mouseTarget.y = 1.0 - e.clientY / window.innerHeight;
+      });
+    }
 
-  // ─── Render loop ─────────────────────────────────────────────────────────────
+    // ─── Scroll ──────────────────────────────────────────────────────────────────
 
-  const tick = () => {
-    requestAnimationFrame(tick);
+    window.addEventListener(
+      "scroll",
+      () => {
+        scrollY = window.scrollY;
+      },
+      { passive: true },
+    );
+    scrollY = window.scrollY;
 
-    // Smooth mouse (lerp)
-    mouseSmooth.x += (mouseTarget.x - mouseSmooth.x) * 0.07;
-    mouseSmooth.y += (mouseTarget.y - mouseSmooth.y) * 0.07;
+    // ─── Render loop ─────────────────────────────────────────────────────────────
 
-    const elapsed = reducedMotion ? 0 : (performance.now() - t0) / 1000;
+    const tick = () => {
+      requestAnimationFrame(tick);
 
-    gl.uniform2f(uRes, canvas.width, canvas.height);
-    gl.uniform1f(uTime, elapsed);
-    gl.uniform2f(uMouse, mouseSmooth.x, mouseSmooth.y);
-    gl.uniform1f(uScrollY, scrollY);
+      // Smooth mouse (lerp)
+      mouseSmooth.x += (mouseTarget.x - mouseSmooth.x) * 0.07;
+      mouseSmooth.y += (mouseTarget.y - mouseSmooth.y) * 0.07;
 
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
-  };
-  tick();
+      const elapsed = reducedMotion ? 0 : (performance.now() - t0) / 1000;
+
+      gl.uniform2f(uRes, canvas.width, canvas.height);
+      gl.uniform1f(uTime, elapsed);
+      gl.uniform2f(uMouse, mouseSmooth.x, mouseSmooth.y);
+      gl.uniform1f(uScrollY, scrollY);
+
+      gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+    };
+    tick();
+  })();
 </script>
