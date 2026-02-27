@@ -1,4 +1,5 @@
-import * as THREE from "three";
+import { Vector3, Quaternion } from "three";
+import type { Bone, Camera } from "three";
 
 const MASS = 1.0; // inertia; higher = heavier, slower acceleration
 const STIFFNESS = 40; // torsional spring strength (κ)
@@ -9,13 +10,13 @@ const MAX_VEL = Math.PI * 4; // ±720°/s velocity clamp (prevents 180° ambigui
 const FIXED_DT = 1 / 60; // fixed physics timestep (seconds)
 const REST_EPS = 1e-4; // sleep threshold
 
-const WORLD_Z = new THREE.Vector3(0, -1, 0); // left/right tilt axis (Y compensates for armature -90° X rotation)
-const WORLD_X = new THREE.Vector3(1, 0, 0); // up/down nod axis
+const WORLD_Z = new Vector3(0, -1, 0); // left/right tilt axis (Y compensates for armature -90° X rotation)
+const WORLD_X = new Vector3(1, 0, 0); // up/down nod axis
 
 export const createBobble = (
-  bone: THREE.Bone,
+  bone: Bone,
   canvas: HTMLCanvasElement,
-  camera: THREE.Camera
+  camera: Camera
 ) => {
   let rotX = 0,
     rotZ = 0; // spring displacement (radians)
@@ -33,7 +34,7 @@ export const createBobble = (
   // Force parent matrix traversal so getWorldQuaternion is accurate.
   bone.updateWorldMatrix(true, false);
   const restQuat = bone.quaternion.clone();
-  const parentWorldQuat = new THREE.Quaternion();
+  const parentWorldQuat = new Quaternion();
   if (bone.parent) bone.parent.getWorldQuaternion(parentWorldQuat);
   const parentWorldQuatInv = parentWorldQuat.clone().invert();
 
@@ -41,7 +42,7 @@ export const createBobble = (
 
   // Screen-space hit test — project bone to 2D, check radius. O(1), no mesh traversal.
   const HEAD_HIT_RADIUS = 120; // pixels; covers head + some margin for the neck-origin offset
-  const _boneScreenPos = new THREE.Vector3(); // pre-allocated, avoids per-event GC
+  const _boneScreenPos = new Vector3(); // pre-allocated, avoids per-event GC
 
   const getHit = (clientX: number, clientY: number): boolean => {
     bone.getWorldPosition(_boneScreenPos);
@@ -67,10 +68,10 @@ export const createBobble = (
   };
 
   // Pre-allocated quaternions for applyBoneRotation — zero per-call heap allocation.
-  const _qZ = new THREE.Quaternion();
-  const _qX = new THREE.Quaternion();
-  const _springQuat = new THREE.Quaternion();
-  const _boneQuat = new THREE.Quaternion();
+  const _qZ = new Quaternion();
+  const _qX = new Quaternion();
+  const _springQuat = new Quaternion();
+  const _boneQuat = new Quaternion();
 
   // Apply spring rotation in world space, then convert to bone-local.
   // boneLocal = P⁻¹ * S * P * restQuat

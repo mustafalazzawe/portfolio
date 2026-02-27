@@ -20,105 +20,17 @@
 </style>
 
 <script>
-  import * as THREE from "three";
-
-  import { createScene } from "../lib/three/scene";
-  import { createCamera } from "../lib/three/camera";
-  import { createRenderer } from "../lib/three/renderer";
-  import { createControls } from "../lib/three/controls";
-  import { createLights } from "../lib/three/lights";
-  import { loadMoose } from "../lib/three/objects/moose";
-  import { createBobble } from "../lib/three/bobble";
-
   const canvas = document.querySelector<HTMLCanvasElement>(".canvas")!;
 
-  const scene = createScene();
-  const camera = createCamera(canvas);
-  const renderer = createRenderer(canvas);
-  const controls = createControls(camera, renderer.domElement);
-  canvas.style.touchAction = "pan-y"; // override OrbitControls' "none" — let browser scroll
+  // Mobile heuristic: coarse pointer (touch) OR narrow viewport.
+  // On these devices, antialiasing is expensive and barely visible.
+  const isMobile =
+    matchMedia("(pointer: coarse)").matches || window.innerWidth < 768;
 
-  const lights = createLights();
-  scene.add(...lights);
-
-  const onResize = () => {
-    camera.aspect = canvas.clientWidth / canvas.clientHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
-  };
-  window.addEventListener("resize", onResize);
-  onResize();
-
-  const clock = new THREE.Clock();
-  let bobble: ReturnType<typeof createBobble> | null = null;
-  let model: THREE.Group | null = null;
-  let baseModelY = 0;
-  let rafId: number | null = null;
-
-  let float: boolean = false;
-
-  const tick = () => {
-    rafId = requestAnimationFrame(tick);
-    const delta = clock.getDelta();
-    bobble?.update(delta);
-
-    // Idle float — gentle sine wave on model Y, decoupled from bobble physics
-    if (float && model) {
-      model.position.y =
-        baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
-    }
-    renderer.render(scene, camera);
-  };
-
-  // Only render while the canvas is in the viewport — stops GPU work when user scrolls away.
-  new IntersectionObserver((entries) => {
-    if (entries[0].isIntersecting) {
-      if (rafId === null) tick();
-    } else {
-      if (rafId !== null) {
-        cancelAnimationFrame(rafId);
-        rafId = null;
-      }
-    }
-  }).observe(canvas);
-
-  // Stop auto-nudging once user has dragged the head
-  let hasInteracted = false;
-  canvas.addEventListener(
-    "pointerdown",
-    () => {
-      hasInteracted = true;
-    },
-    { once: true },
-  );
-
-  loadMoose().then((m) => {
-    const box = new THREE.Box3().setFromObject(m);
-    const center = box.getCenter(new THREE.Vector3());
-    m.position.sub(center);
-
-    m.rotation.y = -(Math.PI / 18);
-
-    baseModelY = m.position.y;
-    model = m;
-    scene.add(m);
-    canvas.classList.add("loaded");
-
-    let headBone: THREE.Bone | null = null;
-    m.traverse((obj) => {
-      if (obj instanceof THREE.Bone && obj.name === "Head") headBone = obj;
-    });
-    if (headBone) bobble = createBobble(headBone, canvas, camera);
-
-    // Auto-nudge — demonstrates spring physics if user hasn't interacted yet
-    const scheduleNudge = (delay: number) => {
-      setTimeout(() => {
-        if (!hasInteracted) {
-          bobble?.nudge();
-          scheduleNudge(60000);
-        }
-      }, delay);
-    };
-    scheduleNudge(2500);
+  // Lazy-load the entire Three.js bundle.
+  // Vite code-splits this into a separate chunk that is only
+  // fetched when this import() executes, keeping the initial page load fast.
+  import("../lib/three/init").then(({ initCanvas }) => {
+    initCanvas(canvas, { antialias: !isMobile });
   });
 </script>

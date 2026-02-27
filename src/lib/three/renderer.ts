@@ -1,9 +1,12 @@
-import * as THREE from "three";
+import { WebGLRenderer } from "three";
 
-export const createRenderer = (canvas: HTMLCanvasElement) => {
-  const renderer = new THREE.WebGLRenderer({
+export const createRenderer = (
+  canvas: HTMLCanvasElement,
+  antialias: boolean,
+) => {
+  const renderer = new WebGLRenderer({
     canvas,
-    antialias: true,
+    antialias,
     alpha: true,
   });
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
