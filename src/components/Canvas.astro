@@ -60,10 +60,10 @@
     bobble?.update(delta);
 
     // Idle float — gentle sine wave on model Y, decoupled from bobble physics
-    if (model) {
-      model.position.y =
-        baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
-    }
+    // if (model) {
+    //   model.position.y =
+    //     baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
+    // }
     renderer.render(scene, camera);
   };
 

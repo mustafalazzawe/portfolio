@@ -13,21 +13,21 @@ export const loadMoose = (): Promise<THREE.Group> =>
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
     loader.load(
-      "/three/models/moose.glb",
+      "/three/models/moose-fix28.glb",
       (gltf) => {
-        gltf.scene.traverse((obj) => {
-          if (obj instanceof THREE.Mesh && obj.material instanceof THREE.MeshStandardMaterial) {
-            obj.material.aoMap = aoTexture;
-            obj.material.aoMapIntensity = 0.3;
-            obj.material.needsUpdate = true;
+        // gltf.scene.traverse((obj) => {
+        //   if (obj instanceof THREE.Mesh && obj.material instanceof THREE.MeshStandardMaterial) {
+        //     obj.material.aoMap = aoTexture;
+        //     obj.material.aoMapIntensity = 0.3;
+        //     obj.material.needsUpdate = true;
 
-            // AO reads from the second UV channel (uv1 in Three.js r152+).
-            // Copy the primary UV since the bake used the same layout.
-            if (!obj.geometry.attributes.uv1) {
-              obj.geometry.setAttribute("uv1", obj.geometry.attributes.uv);
-            }
-          }
-        });
+        //     // AO reads from the second UV channel (uv1 in Three.js r152+).
+        //     // Copy the primary UV since the bake used the same layout.
+        //     if (!obj.geometry.attributes.uv1) {
+        //       obj.geometry.setAttribute("uv1", obj.geometry.attributes.uv);
+        //     }
+        //   }
+        // });
         resolve(gltf.scene);
       },
       undefined,
