@@ -1,25 +1,50 @@
 ---
 import Canvas from "../Canvas.astro";
+import Icon from "../Icons/Icon.astro";
 ---
 
 <section id="home" class="hero">
   <div class="container">
     <div class="hero__layout">
       <div class="hero__content">
-        <div class="hero__header">
-          <h4 class="hero__greeting">Hi, I'm Mustafa</h4>
-          <h2 class="hero__title">Design Engineer</h2>
+        <div class="hero__text">
+          <div class="hero__header">
+            <h4 class="hero__greeting">Mustafa Al-Azzawe</h4>
+            <h2 class="hero__title">Design Engineer</h2>
+          </div>
+          <div class="hero__body">
+            <p class="hero__description">
+              I build clean, accessible experiences where every detail is
+              intentional.
+            </p>
+          </div>
         </div>
 
-        <div class="hero__body">
-          <p class="hero__description">
-            I build clean, accessible experiences where every detail is
-            intentional.
-          </p>
-          <p class="hero__description">
-            I co-founded <a href="https://everythingincreation.com/" target="_blank" rel="noopener noreferrer">Everything in Creation</a>, a design and development agency,
-            and currently consult as a Design Engineer at <a href="https://www.humra.love/" target="_blank" rel="noopener noreferrer">HUMRĀ</a>.
-          </p>
+        <div class="hero__actions">
+          <a
+            href="https://github.com/mustafalazzawe"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+          >
+            <Icon name="github-alt" size={24} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+          >
+            <Icon name="linkedin" size={24} />
+          </a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Resume"
+          >
+            <Icon name="resume" size={24} />
+          </a>
         </div>
       </div>
 
@@ -46,6 +71,12 @@ import Canvas from "../Canvas.astro";
     max-width: var(--width-xl);
   }
 
+  .hero__text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-12);
+  }
+
   .hero__header {
     display: flex;
     flex-direction: column;
@@ -63,12 +94,19 @@ import Canvas from "../Canvas.astro";
   }
 
   .hero__description {
+    max-width: 32ch;
     color: var(--fg-secondary);
   }
 
   .hero__actions {
     display: flex;
-    gap: var(--spacing-4);
+    gap: var(--spacing-8);
+  }
+
+  .hero__actions a {
+    padding: var(--spacing-8) 0;
+    
+    text-decoration: none;
   }
 
   .hero__canvas {

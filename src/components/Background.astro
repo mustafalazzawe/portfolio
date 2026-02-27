@@ -2,118 +2,288 @@
 
 ---
 
-<div class="background__container">
-  <svg style="position: absolute; width: 0; height: 0;">
-    <filter id="noise">
-      <feTurbulence
-        type="fractalNoise"
-        baseFrequency="0.8"
-        numOctaves="2"
-        seed="4368"
-      >
-      </feTurbulence>
-      <feComponentTransfer>
-        <feFuncA type="table" tableValues="0 0.1"></feFuncA>
-      </feComponentTransfer>
-    </filter>
-  </svg>
-
-  <div class="noise"></div>
-
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-  <div class="glow glow-3"></div>
-  <div class="glow glow-4"></div>
+<div class="background">
+  <canvas class="background__canvas"></canvas>
+  <div class="background__noise"></div>
 </div>
 
 <style>
-  .background__container {
-    position: absolute;
+  .background {
+    position: fixed;
     inset: 0;
+
     overflow: hidden;
+
+    pointer-events: none;
     z-index: -1;
   }
 
-  .noise {
-    position: fixed;
+  .background__canvas {
+    position: absolute;
     inset: 0;
-    filter: url(#noise);
+
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .background__noise {
+    position: absolute;
+    inset: 0;
+
+    background-image: url("/images/noise-200x200.png");
+    background-repeat: repeat;
+
+    opacity: 0.3;
+
     pointer-events: none;
-    z-index: -1;
   }
 
   @media (max-width: 376px) {
-    .noise {
-      filter: none;
-      background: rgba(255, 255, 255, 0.04);
+    .background__noise {
+      background-image: none;
+      background-color: rgba(255, 255, 255, 0.04);
     }
   }
+
   @media (prefers-reduced-motion: reduce) {
-    .noise {
-      filter: none;
-      background: rgba(255, 255, 255, 0.04);
-    }
-  }
-
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-touch-callout: none) {
-      .noise {
-        filter: none;
-        background: rgba(255, 255, 255, 0.04);
-      }
-    }
-  }
-
-  .glow {
-    position: absolute;
-
-    width: 75vw;
-    max-width: 1024px;
-    min-width: 376px;
-
-    aspect-ratio: 1/1;
-
-    border-radius: var(--b-radius-full);
-
-    filter: blur(256px);
-
-    pointer-events: none;
-    z-index: -2;
-  }
-
-  .glow-1 {
-    top: -256px;
-    right: -256px;
-
-    background: rgba(39, 66, 86, 0.2);
-  }
-
-  .glow-2 {
-    top: 864px;
-    left: -256px;
-
-    background: rgba(139, 164, 181, 0.1);
-  }
-
-  .glow-3 {
-    top: 2464px;
-    right: -128px;
-
-    width: 85vw;
-    max-width: 1256px;
-
-    background: rgba(39, 66, 86, 0.2);
-  }
-
-  .glow-4 {
-    top: 4128px;
-    left: -256px;
-    background: rgba(139, 164, 181, 0.1);
-  }
-
-  @media (max-width: 768px) {
-    .glow {
-      filter: blur(128px);
+    .background__noise {
+      background-image: none;
+      background-color: rgba(255, 255, 255, 0.04);
     }
   }
 </style>
+
+<script>
+  const canvas = document.querySelector<HTMLCanvasElement>(
+    ".background__canvas",
+  )!;
+  const gl = canvas.getContext("webgl", { alpha: false, antialias: false })!;
+
+  // ─── Shaders ─────────────────────────────────────────────────────────────────
+
+  const vertSrc = `
+    attribute vec2 a_position;
+    void main() {
+      gl_Position = vec4(a_position, 0.0, 1.0);
+    }
+  `;
+
+  const fragSrc = `
+    precision mediump float;
+
+    uniform vec2 u_resolution;
+    uniform float u_time;
+    uniform vec2 u_mouse;
+    uniform float u_scrollY;
+
+    // ── Simplex 2D noise (Ashima Arts) ──────────────────────────────────────────
+
+    vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
+    vec3 permute(vec3 x) { return mod289(((x * 34.0) + 1.0) * x); }
+
+    float snoise(vec2 v) {
+      const vec4 C = vec4(
+        0.211324865405187, 0.366025403784439,
+        -0.577350269189626, 0.024390243902439
+      );
+      vec2 i  = floor(v + dot(v, C.yy));
+      vec2 x0 = v - i + dot(i, C.xx);
+      vec2 i1 = (x0.x > x0.y) ? vec2(1.0, 0.0) : vec2(0.0, 1.0);
+      vec4 x12 = x0.xyxy + C.xxzz;
+      x12.xy -= i1;
+      i = mod289(i);
+      vec3 p = permute(
+        permute(i.y + vec3(0.0, i1.y, 1.0)) + i.x + vec3(0.0, i1.x, 1.0)
+      );
+      vec3 m = max(
+        0.5 - vec3(dot(x0, x0), dot(x12.xy, x12.xy), dot(x12.zw, x12.zw)),
+        0.0
+      );
+      m = m * m;
+      m = m * m;
+      vec3 x = 2.0 * fract(p * C.www) - 1.0;
+      vec3 h = abs(x) - 0.5;
+      vec3 ox = floor(x + 0.5);
+      vec3 a0 = x - ox;
+      m *= 1.79284291400159 - 0.85373472095314 * (a0 * a0 + h * h);
+      vec3 g;
+      g.x  = a0.x  * x0.x  + h.x  * x0.y;
+      g.yz = a0.yz * x12.xz + h.yz * x12.yw;
+      return 130.0 * dot(m, g);
+    }
+
+    float fbm(vec2 p) {
+      float f = 0.0;
+      f += 0.5000 * snoise(p); p *= 2.01;
+      f += 0.2500 * snoise(p); p *= 2.02;
+      f += 0.1250 * snoise(p);
+      return f;
+    }
+
+    // ── Main ────────────────────────────────────────────────────────────────────
+
+    void main() {
+      // Page-space position (GL is bottom-up, page is top-down)
+      float pageY = u_scrollY + (u_resolution.y - gl_FragCoord.y);
+      float pageX = gl_FragCoord.x;
+
+      // Base color: #060C13
+      vec3 base = vec3(0.024, 0.047, 0.075);
+
+      // Glow palette
+      vec3 teal     = vec3(0.153, 0.259, 0.337);  // rgb(39, 66, 86)
+      vec3 blueGray = vec3(0.545, 0.643, 0.710);  // rgb(139, 164, 181)
+
+      // Animated noise — very slow drift
+      vec2 uv = gl_FragCoord.xy / u_resolution;
+      float t = u_time * 0.015;
+      float n1 = fbm(uv * 1.5 + t) * 0.5 + 0.5;
+      float n2 = fbm(uv * 1.5 - t + 50.0) * 0.5 + 0.5;
+
+      // Mouse parallax offset
+      vec2 mOff = (u_mouse - 0.5) * 60.0;
+
+      // Responsive radius scaling
+      float rScale = clamp(u_resolution.x / 1280.0, 0.5, 1.0);
+
+      // Current pixel in page-space
+      vec2 pos = vec2(pageX, pageY);
+
+      // Gaussian-like glow falloff — no visible edge
+      // exp(-d*d * sharpness) gives a smooth bell curve
+      float sharp = 3.0;
+
+      // Glow 1: top-right — teal
+      vec2 g1 = vec2(u_resolution.x + 256.0, -256.0);
+      float d1 = length(pos - g1 + mOff * 0.3) / (1280.0 * rScale);
+      float f1 = exp(-d1 * d1 * sharp) * 0.20;
+
+      // Glow 2: left — blue-gray
+      vec2 g2 = vec2(-256.0, 864.0);
+      float d2 = length(pos - g2 - mOff * 0.2) / (1280.0 * rScale);
+      float f2 = exp(-d2 * d2 * sharp) * 0.10;
+
+      // Glow 3: right-mid — teal
+      vec2 g3 = vec2(u_resolution.x + 128.0, 2464.0);
+      float d3 = length(pos - g3 + mOff * 0.25) / (1400.0 * rScale);
+      float f3 = exp(-d3 * d3 * sharp) * 0.20;
+
+      // Glow 4: left-bottom — blue-gray
+      vec2 g4 = vec2(-256.0, 4128.0);
+      float d4 = length(pos - g4 - mOff * 0.15) / (1280.0 * rScale);
+      float f4 = exp(-d4 * d4 * sharp) * 0.10;
+
+      // Noise modulation (±15% intensity variation)
+      f1 *= 0.85 + n1 * 0.30;
+      f2 *= 0.85 + n2 * 0.30;
+      f3 *= 0.85 + n2 * 0.30;
+      f4 *= 0.85 + n1 * 0.30;
+
+      // Mouse glow — subtle teal light at cursor
+      vec2 mousePos = u_mouse * u_resolution;
+      float mDist = length(gl_FragCoord.xy - mousePos) / (350.0 * rScale);
+      float mGlow = exp(-mDist * mDist * sharp) * 0.04;
+
+      // Composite
+      vec3 color = base;
+      color += teal * f1;
+      color += blueGray * f2;
+      color += teal * f3;
+      color += blueGray * f4;
+      color += teal * mGlow;
+
+      gl_FragColor = vec4(color, 1.0);
+    }
+  `;
+
+  // ─── WebGL setup ─────────────────────────────────────────────────────────────
+
+  function compile(src: string, type: number): WebGLShader {
+    const s = gl.createShader(type)!;
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    return s;
+  }
+
+  const program = gl.createProgram()!;
+  gl.attachShader(program, compile(vertSrc, gl.VERTEX_SHADER));
+  gl.attachShader(program, compile(fragSrc, gl.FRAGMENT_SHADER));
+  gl.linkProgram(program);
+  gl.useProgram(program);
+
+  // Fullscreen quad
+  const buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array([-1, -1, 1, -1, -1, 1, 1, 1]),
+    gl.STATIC_DRAW,
+  );
+
+  const aPos = gl.getAttribLocation(program, "a_position");
+  gl.enableVertexAttribArray(aPos);
+  gl.vertexAttribPointer(aPos, 2, gl.FLOAT, false, 0, 0);
+
+  // Uniform locations
+  const uRes = gl.getUniformLocation(program, "u_resolution");
+  const uTime = gl.getUniformLocation(program, "u_time");
+  const uMouse = gl.getUniformLocation(program, "u_mouse");
+  const uScrollY = gl.getUniformLocation(program, "u_scrollY");
+
+  // ─── State ───────────────────────────────────────────────────────────────────
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)",
+  ).matches;
+
+  let mouseTarget = { x: 0.5, y: 0.5 };
+  let mouseSmooth = { x: 0.5, y: 0.5 };
+  let scrollY = 0;
+  const t0 = performance.now();
+
+  // ─── Resize (1x DPR — soft glows don't need retina) ─────────────────────────
+
+  const resize = () => {
+    canvas.width = canvas.clientWidth;
+    canvas.height = canvas.clientHeight;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  };
+  window.addEventListener("resize", resize);
+  resize();
+
+  // ─── Mouse ───────────────────────────────────────────────────────────────────
+
+  if (!reducedMotion) {
+    document.addEventListener("mousemove", (e) => {
+      mouseTarget.x = e.clientX / window.innerWidth;
+      mouseTarget.y = 1.0 - e.clientY / window.innerHeight;
+    });
+  }
+
+  // ─── Scroll ──────────────────────────────────────────────────────────────────
+
+  window.addEventListener("scroll", () => { scrollY = window.scrollY; }, { passive: true });
+  scrollY = window.scrollY;
+
+  // ─── Render loop ─────────────────────────────────────────────────────────────
+
+  const tick = () => {
+    requestAnimationFrame(tick);
+
+    // Smooth mouse (lerp)
+    mouseSmooth.x += (mouseTarget.x - mouseSmooth.x) * 0.07;
+    mouseSmooth.y += (mouseTarget.y - mouseSmooth.y) * 0.07;
+
+    const elapsed = reducedMotion ? 0 : (performance.now() - t0) / 1000;
+
+    gl.uniform2f(uRes, canvas.width, canvas.height);
+    gl.uniform1f(uTime, elapsed);
+    gl.uniform2f(uMouse, mouseSmooth.x, mouseSmooth.y);
+    gl.uniform1f(uScrollY, scrollY);
+
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
+  };
+  tick();
+</script>

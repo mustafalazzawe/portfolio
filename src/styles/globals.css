@@ -61,13 +61,11 @@ h5 {
 h6 {
   font-family: var(--font-family-body);
 
-  font-size: var(--font-size-header-sm);
-  font-weight: var(--font-weight-medium);
-  line-height: var(--line-height-header-md);
-}
+  font-size: var(--font-size-body-sm);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-body-sm);
 
-p {
-  max-width: 75ch;
+  text-transform: uppercase;
 }
 
 a {

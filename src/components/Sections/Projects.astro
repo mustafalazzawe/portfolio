@@ -2,11 +2,11 @@
 import ProjectCard from "../ProjectCard.astro";
 import type { ImageMetadata } from "astro";
 
-import humraThumbnail from "../../assets/thumbnails/humra-thumbnail.png";
-import pebbleThumbnail from "../../assets/thumbnails/pebble-thumbnail.png";
-import sdsThumbnail from "../../assets/thumbnails/sds-thumbnail.png";
-import dfaThumbnail from "../../assets/thumbnails/dfa-thumbnail.png";
-import jdsThumbnail from "../../assets/thumbnails/jds-thumbnail.png";
+import humraThumbnail from "../../assets/thumbnails/humra-thumbnail-sm.png";
+import pebbleThumbnail from "../../assets/thumbnails/pebble-thumbnail-sm.png";
+import sdsThumbnail from "../../assets/thumbnails/sds-thumbnail-sm.png";
+import dfaThumbnail from "../../assets/thumbnails/dfa-thumbnail-sm.png";
+import jdsThumbnail from "../../assets/thumbnails/jds-thumbnail-sm.png";
 
 type TProjectStatus = "Ongoing" | "Work in Progress" | "Completed";
 
@@ -80,19 +80,20 @@ const projects: TProject[] = [
   <div class="container">
     <h6 class="projects__title">Projects</h6>
     <div class="project__cards">
-      <div class="project__highlight"></div>
-      {projects.map((project, i) => (
-        <ProjectCard
-          index={i}
-          status={project.status}
-          title={project.title}
-          description={project.description}
-          tags={project.tags}
-          thumbnail={project.thumbnail}
-          repoURL={project.repoURL}
-          liveURL={project.liveURL}
-        />
-      ))}
+      {
+        projects.map((project, i) => (
+          <ProjectCard
+            index={i}
+            status={project.status}
+            title={project.title}
+            description={project.description}
+            tags={project.tags}
+            thumbnail={project.thumbnail}
+            repoURL={project.repoURL}
+            liveURL={project.liveURL}
+          />
+        ))
+      }
     </div>
   </div>
 </section>
@@ -106,121 +107,8 @@ const projects: TProject[] = [
     gap: var(--spacing-12);
   }
 
-  .project__highlight {
-    position: absolute;
-    top: 0;
-    left: calc(-1 * var(--spacing-12));
-    right: calc(-1 * var(--spacing-12));
-
-    border-radius: var(--b-radius-3xl);
-
-    background-color: rgba(20, 27, 35, 0.2);
-
-    backdrop-filter: blur(24px) saturate(160%);
-    -webkit-backdrop-filter: blur(24px) saturate(160%);
-
-    box-shadow:
-      0px 8px 32px 0px rgba(0, 0, 0, 0.2),
-      0px 2px 8px 0px rgba(0, 0, 0, 0.12);
-
-    pointer-events: none;
-    opacity: 0;
-  }
-
-  .project__highlight::after {
-    content: "";
-
-    position: absolute;
-    inset: 0;
-
-    padding: 1px;
-
-    border-radius: inherit;
-
-    background: linear-gradient(
-      135deg,
-      rgba(255, 255, 255, 0.1) 0%,
-      rgba(255, 255, 255, 0.03) 35%,
-      rgba(255, 255, 255, 0) 65%,
-      rgba(255, 255, 255, 0.02) 100%
-    );
-
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-
-    pointer-events: none;
-  }
-
   .divider {
     height: 1px;
     background-color: var(--border-secondary);
   }
 </style>
-
-<script>
-  import gsap from "gsap";
-
-  // Astro module scripts are deferred — DOM is ready when this runs.
-  // No need for astro:page-load since this project has no View Transitions.
-  const cardLists =
-    document.querySelectorAll<HTMLElement>(".project__cards");
-
-  const canHover = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
-
-  if (canHover) {
-    cardLists.forEach((list) => {
-      const highlight = list.querySelector<HTMLElement>(".project__highlight");
-      if (!highlight) return;
-
-      const cards = list.querySelectorAll<HTMLElement>(".project__container");
-
-      const quickY = gsap.quickTo(highlight, "y", {
-        duration: 0.35,
-        ease: "power4.out",
-      });
-
-      const quickOpacity = gsap.quickTo(highlight, "opacity", {
-        duration: 0.2,
-        ease: "power2.out",
-      });
-
-      let isFirstHover = true;
-      let activeCard: HTMLElement | null = null;
-
-      list.addEventListener("mousemove", (e: MouseEvent) => {
-        const target = e.target as HTMLElement;
-        const hoveredCard = target.closest<HTMLElement>(".project__container");
-
-        if (!hoveredCard || hoveredCard === activeCard) return;
-
-        activeCard = hoveredCard;
-
-        cards.forEach((card) => card.classList.remove("is-active"));
-        hoveredCard.classList.add("is-active");
-        list.classList.add("has-active");
-
-        const cardTop = hoveredCard.offsetTop;
-        const cardHeight = hoveredCard.offsetHeight;
-
-        if (isFirstHover) {
-          gsap.set(highlight, { y: cardTop, height: cardHeight });
-          quickOpacity(1);
-          isFirstHover = false;
-        } else {
-          quickY(cardTop);
-          gsap.set(highlight, { height: cardHeight });
-          quickOpacity(1);
-        }
-      });
-
-      list.addEventListener("mouseleave", () => {
-        quickOpacity(0);
-        cards.forEach((card) => card.classList.remove("is-active"));
-        list.classList.remove("has-active");
-        isFirstHover = true;
-        activeCard = null;
-      });
-    });
-  }
-</script>
