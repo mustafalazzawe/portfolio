@@ -87,6 +87,10 @@ const { title = "Mustafa Al-Azzawe | Design Engineer" } = Astro.props;
     max-width: var(--width-3xl);
   }
 
+  footer {
+    padding: var(--spacing-16) var(--spacing-128);
+  }
+
   footer .container {
     display: flex;
     flex-direction: column;
@@ -97,20 +101,26 @@ const { title = "Mustafa Al-Azzawe | Design Engineer" } = Astro.props;
   }
 
   @media (max-width: 1280px) {
-    section,
-    footer {
+    section {
       padding: var(--spacing-32) var(--spacing-64);
+    }
+
+    footer {
+      padding: var(--spacing-16) var(--spacing-64);
     }
   }
 
   @media (max-width: 1024px) {
-    section,
-    footer {
+    section {
       padding: var(--spacing-32);
     }
 
     section .container {
       gap: var(--spacing-12);
+    }
+
+    footer {
+      padding: var(--spacing-16) var(--spacing-32);
     }
 
     footer .container {
@@ -119,9 +129,12 @@ const { title = "Mustafa Al-Azzawe | Design Engineer" } = Astro.props;
   }
 
   @media (max-width: 480px) {
-    section,
-    footer {
+    section {
       padding: var(--spacing-32) var(--spacing-16);
+    }
+
+    footer {
+      padding: var(--spacing-16);
     }
   }
 </style>
