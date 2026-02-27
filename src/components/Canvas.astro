@@ -9,6 +9,13 @@
     display: block;
     width: 100%;
     height: 100%;
+
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .canvas.loaded {
+    opacity: 1;
   }
 </style>
 
@@ -92,6 +99,7 @@
     baseModelY = m.position.y;
     model = m;
     scene.add(m);
+    canvas.classList.add("loaded");
 
     let headBone: THREE.Bone | null = null;
     m.traverse((obj) => {

@@ -9,6 +9,7 @@
     .from(".hero__greeting",    { opacity: 0, y: 12 }, 0.15)
     .from(".hero__title",       { opacity: 0, y: 20 }, 0.3)
     .from(".hero__description", { opacity: 0, y: 12, stagger: 0.12 }, 0.45)
+    .from(".hero__actions",     { opacity: 0, y: 12 }, 0.6)
     .from(".hero__canvas",      { opacity: 0, duration: 0.8 }, 0.5);
 
   // ─── Scroll helper ────────────────────────────────────────────────────────────
@@ -32,7 +33,6 @@
 
   // ─── About ───────────────────────────────────────────────────────────────────
   scrollFrom(".about__title", {});
-  scrollFrom(".about__image", { delay: 0.05 });
   scrollFrom(".about__text p", { stagger: 0.08 }, ".about__text");
 
   // ─── Projects ─────────────────────────────────────────────────────────────────
@@ -45,7 +45,14 @@
   scrollFrom(".timeline__item", { stagger: 0.1 }, ".experience__items");
 
   // ─── Footer ──────────────────────────────────────────────────────────────────
-  scrollFrom(".footer__title", {});
-  scrollFrom(".email__container", { delay: 0.05 });
-  scrollFrom(".socials__container", { delay: 0.1 });
+  const footerInfo = document.querySelector(".footer__info");
+  if (footerInfo) {
+    gsap.set(footerInfo, { opacity: 0, y: 24 });
+    new IntersectionObserver(([entry], obs) => {
+      if (entry.isIntersecting) {
+        gsap.to(footerInfo, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" });
+        obs.disconnect();
+      }
+    }, { threshold: 0.1 }).observe(footerInfo);
+  }
 </script>

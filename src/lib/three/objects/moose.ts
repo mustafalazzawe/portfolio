@@ -6,14 +6,14 @@ import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
 export const loadMoose = (): Promise<THREE.Group> =>
   new Promise((resolve, reject) => {
     const aoTexture = new THREE.TextureLoader().load("/three/textures/ao.png");
-    aoTexture.colorSpace = THREE.NoColorSpace; // AO is linear grayscale — no sRGB gamma
+    aoTexture.colorSpace = THREE.NoColorSpace; 
 
     const dracoLoader = new DRACOLoader();
     dracoLoader.setDecoderPath('https://www.gstatic.com/draco/versioned/decoders/1.5.7/');
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
     loader.load(
-      "/three/models/moose-fix25.glb",
+      "/three/models/moose.glb",
       (gltf) => {
         gltf.scene.traverse((obj) => {
           if (obj instanceof THREE.Mesh && obj.material instanceof THREE.MeshStandardMaterial) {

@@ -2,118 +2,109 @@
 
 ---
 
-<div class="background__container">
-  <svg style="position: absolute; width: 0; height: 0;">
-    <filter id="noise">
-      <feTurbulence
-        type="fractalNoise"
-        baseFrequency="0.8"
-        numOctaves="2"
-        seed="4368"
-      >
-      </feTurbulence>
-      <feComponentTransfer>
-        <feFuncA type="table" tableValues="0 0.1"></feFuncA>
-      </feComponentTransfer>
-    </filter>
-  </svg>
-
-  <div class="noise"></div>
-
-  <div class="glow glow-1"></div>
-  <div class="glow glow-2"></div>
-  <div class="glow glow-3"></div>
-  <div class="glow glow-4"></div>
+<div class="background">
+  <div class="background__glows"></div>
+  <div class="background__noise"></div>
 </div>
 
 <style>
-  .background__container {
+  .background {
     position: absolute;
     inset: 0;
+
     overflow: hidden;
+
+    pointer-events: none;
     z-index: -1;
   }
 
-  .noise {
+  .background__glows {
+    position: absolute;
+    inset: 0;
+
+    background-image:
+      radial-gradient(
+        circle 1280px at calc(100% + 256px) -256px,
+        rgba(39, 66, 86, 0.2) 0%,
+        rgba(39, 66, 86, 0.15) 20%,
+        rgba(39, 66, 86, 0) 70%
+      ),
+      radial-gradient(
+        circle 1280px at -256px 864px,
+        rgba(139, 164, 181, 0.1) 0%,
+        rgba(139, 164, 181, 0.07) 30%,
+        rgba(139, 164, 181, 0) 70%
+      ),
+      radial-gradient(
+        circle 1400px at calc(100% + 128px) 2464px,
+        rgba(39, 66, 86, 0.2) 0%,
+        rgba(39, 66, 86, 0.15) 30%,
+        rgba(39, 66, 86, 0) 70%
+      ),
+      radial-gradient(
+        circle 1280px at -256px 4128px,
+        rgba(139, 164, 181, 0.1) 0%,
+        rgba(139, 164, 181, 0.07) 30%,
+        rgba(139, 164, 181, 0) 70%
+      );
+
+    z-index: -2;
+  }
+
+  @media (max-width: 768px) {
+    .background__glows {
+      background-image:
+        radial-gradient(
+          circle 768px at calc(100% + 128px) -128px,
+          rgba(39, 66, 86, 0.2) 0%,
+          rgba(39, 66, 86, 0.15) 30%,
+          rgba(39, 66, 86, 0) 70%
+        ),
+        radial-gradient(
+          circle 768px at -128px 864px,
+          rgba(139, 164, 181, 0.1) 0%,
+          rgba(139, 164, 181, 0.07) 30%,
+          rgba(139, 164, 181, 0) 70%
+        ),
+        radial-gradient(
+          circle 884px at calc(100% + 64px) 2464px,
+          rgba(39, 66, 86, 0.2) 0%,
+          rgba(39, 66, 86, 0.15) 30%,
+          rgba(39, 66, 86, 0) 70%
+        ),
+        radial-gradient(
+          circle 768px at -128px 4128px,
+          rgba(139, 164, 181, 0.1) 0%,
+          rgba(139, 164, 181, 0.07) 30%,
+          rgba(139, 164, 181, 0) 70%
+        );
+    }
+  }
+
+  .background__noise {
     position: fixed;
     inset: 0;
-    filter: url(#noise);
+
+    background-image: url("/images/noise-200x200.png");
+    background-repeat: repeat;
+
+    opacity: 0.3;
+
     pointer-events: none;
     z-index: -1;
   }
 
   @media (max-width: 376px) {
-    .noise {
-      filter: none;
-      background: rgba(255, 255, 255, 0.04);
+    .background__noise {
+      background-image: none;
+      background-color: rgba(255, 255, 255, 0.04);
     }
   }
+
   @media (prefers-reduced-motion: reduce) {
-    .noise {
-      filter: none;
-      background: rgba(255, 255, 255, 0.04);
-    }
-  }
-
-  @media not all and (min-resolution: 0.001dpcm) {
-    @supports (-webkit-touch-callout: none) {
-      .noise {
-        filter: none;
-        background: rgba(255, 255, 255, 0.04);
-      }
-    }
-  }
-
-  .glow {
-    position: absolute;
-
-    width: 75vw;
-    max-width: 1024px;
-    min-width: 376px;
-
-    aspect-ratio: 1/1;
-
-    border-radius: var(--b-radius-full);
-
-    filter: blur(256px);
-
-    pointer-events: none;
-    z-index: -2;
-  }
-
-  .glow-1 {
-    top: -256px;
-    right: -256px;
-
-    background: rgba(39, 66, 86, 0.2);
-  }
-
-  .glow-2 {
-    top: 864px;
-    left: -256px;
-
-    background: rgba(139, 164, 181, 0.1);
-  }
-
-  .glow-3 {
-    top: 2464px;
-    right: -128px;
-
-    width: 85vw;
-    max-width: 1256px;
-
-    background: rgba(39, 66, 86, 0.2);
-  }
-
-  .glow-4 {
-    top: 4128px;
-    left: -256px;
-    background: rgba(139, 164, 181, 0.1);
-  }
-
-  @media (max-width: 768px) {
-    .glow {
-      filter: blur(128px);
+    .background__noise {
+      background-image: none;
+      background-color: rgba(255, 255, 255, 0.04);
     }
   }
 </style>

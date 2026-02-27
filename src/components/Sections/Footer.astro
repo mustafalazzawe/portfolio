@@ -4,57 +4,17 @@ import Icon from "../Icons/Icon.astro";
 
 <footer>
   <div class="container">
-    <h2 class="footer__title">Get in touch</h2>
-    <div class="footer__body">
-      <div class="top">
-        <div class="email__container">
-          <div class="email__header">Email</div>
-          <a href="mailto:mustafa.alazzawe@gmail.com">
-            mustafa.alazzawe@gmail.com
-          </a>
-        </div>
-
-        <div class="socials__container">
-          <div class="socials__header">Links</div>
-          <div class="socials__items">
-            <a
-              href="https://github.com/mustafalazzawe"
-              target="_blank"
-              rel="noopener noreferrer"
-              ><span>Github <Icon name="github-alt" size={20} /></span></a
-            >
-            <a
-              href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              <span>Linkedin <Icon name="linkedin" size={20} /></span>
-            </a>
-            <a href="/resume.pdf" target="_blank" rel="noopener noreferrer"
-              ><span>Resume / CV <Icon name="resume" size={20} /></span></a
-            >
-          </div>
-        </div>
-      </div>
-
-      <div class="divider"></div>
-
-      <div class="bottom">
-        <div class="bottom__info">
-          <div class="location">
-            <span class="location__text">
-              Based in
-              <span class="icon__wrapper">
-                <Icon name="maple-leaf" size={20} fill="#FF0000" />
-              </span>
-              Toronto, Ontario, Canada
-            </span>
-          </div>
-          <div class="copyright">
-            © {new Date().getFullYear()} Mustafa Al-Azzawe
-          </div>
-        </div>
-      </div>
+    <div class="footer__info">
+      <span class="footer__location">
+        Based in
+        <span class="icon__wrapper">
+          <Icon name="maple-leaf" size={20} fill="#FF0000" />
+        </span>
+        Toronto, Ontario, Canada
+      </span>
+      <span class="footer__copyright">
+        &copy; {new Date().getFullYear()} Mustafa Al-Azzawe
+      </span>
     </div>
   </div>
 </footer>
@@ -66,85 +26,22 @@ import Icon from "../Icons/Icon.astro";
     background-color: var(--bg-primary);
   }
 
-  footer a {
-    text-decoration: none;
-  }
-
-  .footer__body {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-12);
-  }
-
-  .footer__body .top {
+  .footer__info {
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
 
   @media (max-width: 768px) {
-    .footer__body .top {
-      flex-direction: column;
-      gap: var(--spacing-8);
-    }
-  }
-
-  .email__container,
-  .socials__container {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-4);
-  }
-
-  .email__header,
-  .socials__header {
-    color: var(--fg-secondary);
-  }
-
-  .socials__items {
-    display: flex;
-    gap: var(--spacing-8);
-  }
-
-  .divider {
-    align-self: stretch;
-    height: 1px;
-
-    background-color: var(--border-secondary);
-  }
-
-  .footer__body .bottom {
-    display: flex;
-    flex-direction: column;
-    gap: var(--spacing-32);
-  }
-
-  .bottom__nav {
-    display: flex;
-    gap: var(--spacing-8);
-  }
-
-  @media (max-width: 768px) {
-    .bottom__nav {
-      flex-direction: column;
-    }
-  }
-
-  .bottom__info {
-    display: flex;
-    justify-content: space-between;
-  }
-
-  @media (max-width: 768px) {
-    .bottom__info {
+    .footer__info {
       flex-direction: column;
       align-items: center;
       gap: var(--spacing-8);
     }
   }
 
-  .location__text {
+  .footer__location {
     display: inline;
-    white-space: none;
   }
 
   .icon__wrapper {

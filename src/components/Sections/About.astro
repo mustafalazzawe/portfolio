@@ -4,74 +4,56 @@
 
 <section id="about" class="about">
   <div class="container">
-    <h2 class="about__title">About</h2>
-    <div class="about__body">
-      <div class="about__image"></div>
-      <div class="about__text">
-        <p>
-          I didn't plan on being a developer who cares about design—it just
-          happened.
-        </p>
-        <p>
-          My first real exposure to code was a Visual Basic class in high
-          school. Something clicked, and I ended up studying Computer Science.
-          But graduating meant I still had to figure out what kind of developer
-          I actually wanted to be.
-        </p>
-        <p>
-          My first job threw me into Unreal Engine development for architectural
-          visualization. As the company grew, so did what I was responsible for.
-          We needed interface design—so I learned it. We needed a web
-          application—so I built it. What started as just wearing multiple hats
-          at a start-up turned into the realization that I genuinely love
-          working where code meets design.
-        </p>
-        <p>
-          Turns out I have an eye for visual work, even though I never formally
-          studied it. There's something satisfying about building interfaces
-          that don't just work, but feel right—seamless, intuitive, beautiful. I
-          care about the details that make experiences actually good.
-        </p>
-        <p>
-          These days I'm focused on frontend and design engineering roles where
-          I can bring both technical skill and design thinking to products that
-          help people.
-        </p>
-      </div>
+    <h6 class="about__title">About</h6>
+    <div class="about__text">
+      <p>
+        I co-founded <a
+          href="https://everythingincreation.com/"
+          target="_blank"
+          rel="noopener noreferrer">Everything in Creation</a
+        >, a design and development agency, and currently consult as a Design
+        Engineer at <a
+          href="https://www.humra.love/"
+          target="_blank"
+          rel="noopener noreferrer">HUMRĀ</a
+        >, a matchmaking and micro-wedding startup.
+      </p>
+      <p>
+        My path here came through architectural visualization startups, where
+        staying in one lane wasn't an option. I moved between Unreal Engine
+        development, interface design, React applications, and mobile
+        work—whatever the project needed. That experience taught me to learn
+        fast and ship quickly, but more importantly, it showed me I didn't want
+        to choose between design and development.
+      </p>
+      <p>
+        I'm drawn to work that's visual and client-facing. I care about the
+        details most people won't notice—the spacing, the consistency, the small
+        interactions that accumulate into something that feels good to use. I
+        take pride in having an eye for aesthetics and the technical skills to
+        implement it properly. Design engineering feels like the first role that
+        actually fits how I work.
+      </p>
+      <p>
+        Outside of work, I'm learning to 3D model, hanging out with my two cats,
+        and cataloging way too many movies on <a
+          href="https://letterboxd.com/mustafalazzawe/"
+          target="_blank"
+          rel="noopener noreferrer">Letterboxd</a
+        >.
+      </p>
     </div>
   </div>
 </section>
 
 <style>
-  .about__body {
-    display: flex;
-    gap: var(--spacing-12);
-  }
-
-  @media (max-width: 1024px) {
-    .about__body {
-      flex-direction: column;
-    }
-  }
-
-  .about__image {
-    width: var(--width-lg);
-    align-self: stretch;
-
-    border-radius: var(--b-radius-xl);
-    background: rgba(255, 255, 255, 0.1);
-  }
-
-  @media (max-width: 1024px) {
-    .about__image {
-      width: 100%;
-      height: 75vw;
-    }
-  }
-
   .about__text {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-12);
+  }
+
+  .about__text p {
+    color: var(--fg-secondary);
   }
 </style>
