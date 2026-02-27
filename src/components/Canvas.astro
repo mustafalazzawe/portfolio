@@ -36,6 +36,7 @@
   const camera = createCamera(canvas);
   const renderer = createRenderer(canvas);
   const controls = createControls(camera, renderer.domElement);
+  canvas.style.touchAction = "pan-y"; // override OrbitControls' "none" — let browser scroll
 
   const lights = createLights();
   scene.add(...lights);
@@ -54,16 +55,18 @@
   let baseModelY = 0;
   let rafId: number | null = null;
 
+  let float: boolean = false;
+
   const tick = () => {
     rafId = requestAnimationFrame(tick);
     const delta = clock.getDelta();
     bobble?.update(delta);
 
     // Idle float — gentle sine wave on model Y, decoupled from bobble physics
-    // if (model) {
-    //   model.position.y =
-    //     baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
-    // }
+    if (float && model) {
+      model.position.y =
+        baseModelY + Math.sin(clock.getElapsedTime() * 0.8) * 0.04;
+    }
     renderer.render(scene, camera);
   };
 

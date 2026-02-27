@@ -8,34 +8,66 @@ interface Props extends TProject {
   index?: number;
 }
 
-const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Astro.props;
+const {
+  title,
+  description,
+  tags,
+  thumbnail,
+  repoURL,
+  liveURL,
+  index = 0,
+} = Astro.props;
 ---
 
 <div class="project__container">
   <div class="project__thumbnail">
-    {thumbnail && (
-      index === 0
-        ? <Image class="project__thumbnail__img" src={thumbnail} alt={title} loading="eager" fetchpriority="high" />
-        : <Image class="project__thumbnail__img" src={thumbnail} alt={title} loading="lazy" decoding="async" />
-    )}
+    {
+      thumbnail &&
+        (index === 0 ? (
+          <Image
+            class="project__thumbnail__img"
+            src={thumbnail}
+            alt={title}
+            loading="eager"
+            fetchpriority="high"
+          />
+        ) : (
+          <Image
+            class="project__thumbnail__img"
+            src={thumbnail}
+            alt={title}
+            loading="lazy"
+            decoding="async"
+          />
+        ))
+    }
   </div>
   <div class="project__info">
     <div class="project__body">
       <div class="project__text">
         <span class="project__header">
-          {liveURL ? (
-            <a href={liveURL} target="_blank" rel="noopener noreferrer" class="project__title-link interactive">
-              <span class="project__link-overlay"></span>
-              {title}
-            </a>
-          ) : (
-            <p class="project__title">{title}</p>
-          )}
-          {liveURL && (
-            <span class="project__arrow">
-              <Icon name="arrow-up-right" />
-            </span>
-          )}
+          {
+            liveURL ? (
+              <a
+                href={liveURL}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="interactive project__title-link"
+              >
+                <span class="project__link-overlay" />
+                {title}
+              </a>
+            ) : (
+              <p class="project__title">{title}</p>
+            )
+          }
+          {
+            liveURL && (
+              <span class="project__arrow">
+                <Icon name="arrow-up-right" size={20} />
+              </span>
+            )
+          }
         </span>
         <p class="project__description">
           {description}
@@ -48,11 +80,18 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
     </div>
 
     <div class="project__actions">
-      {repoURL && (
-        <a href={repoURL} target="_blank" rel="noopener noreferrer" class="interactive btn btn-label">
-          View Github <Icon name="github-alt" size={20}/>
-        </a>
-      )}
+      {
+        repoURL && (
+          <a
+            href={repoURL}
+            target="_blank"
+            rel="noopener noreferrer"
+            class="interactive btn btn-label"
+          >
+            View Github <Icon name="github-alt" size={20} />
+          </a>
+        )
+      }
     </div>
   </div>
 </div>
@@ -64,7 +103,6 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
     display: flex;
     gap: var(--spacing-12);
 
-    min-height: 256px;
     padding: var(--spacing-12);
     margin-inline: calc(-1 * var(--spacing-12));
 
@@ -102,7 +140,7 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
     z-index: -1;
   }
 
-  @media (hover: hover) and (pointer: fine) {
+  @media (hover: hover) and (pointer: fine) and (min-width: 481px) {
     .project__container:hover {
       transform: scale(1.005);
     }
@@ -118,8 +156,15 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
         transform 0.15s cubic-bezier(0.22, 1, 0.36, 1);
     }
 
-    :global(.project__cards:has(.project__container:hover)) .project__container:not(:hover) {
+    :global(.project__cards:has(.project__container:hover))
+      .project__container:not(:hover) {
       opacity: 0.4;
+    }
+  }
+
+  @media (hover: hover) and (pointer: fine) and (max-width: 480px) {
+    .project__container:has(.project__title-link):hover .project__thumbnail {
+      border-color: var(--border-primary);
     }
   }
 
@@ -139,6 +184,8 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
 
     border-radius: var(--b-radius-lg);
     border: 1px solid var(--border-secondary);
+
+    transition: border-color 0.3s ease;
   }
 
   .project__thumbnail__img {
@@ -154,7 +201,7 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
   .project__info {
     display: flex;
     flex-direction: column;
-    gap: var(--spacing-24);
+    gap: var(--spacing-16);
   }
 
   .project__body {
@@ -171,10 +218,17 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
 
   .project__header {
     display: flex;
+    align-items: center;
     gap: var(--spacing-6);
+  }
+  .project__container:has(.project__title-link):hover .project__header,
+  .project__container:has(.project__title-link):hover .project__header:active {
+    color: var(--interactive-foreground);
   }
 
   .project__title-link {
+    min-height: 0;
+
     text-decoration: none;
     color: inherit;
   }
@@ -190,13 +244,12 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
   .project__arrow {
     display: flex;
 
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, color 0.1s ease;
   }
 
-  @media (hover: hover) and (pointer: fine) {
-    .project__container:hover .project__arrow {
-      transform: translate(3px, -3px);
-    }
+  .project__container:hover .project__arrow,
+  .project__container:active .project__arrow {
+    transform: translate(2px, -2px);
   }
 
   .project__description {
@@ -213,9 +266,6 @@ const { title, description, tags, thumbnail, repoURL, liveURL, index = 0 } = Ast
     position: relative;
 
     display: flex;
-
-    height: fit-content;
-    min-height: 52px;
   }
 
   .project__actions a {

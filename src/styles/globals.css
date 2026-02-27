@@ -64,6 +64,7 @@ h6 {
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
   line-height: var(--line-height-body-sm);
+  letter-spacing: var(--letter-spacing-label);
 
   text-transform: uppercase;
 }

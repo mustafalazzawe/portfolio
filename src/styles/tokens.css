@@ -115,6 +115,7 @@
   --letter-spacing-sm: -0.02em;
   --letter-spacing-xs: -0.01em;
   --letter-spacing-supporting: 0.02em;
+  --letter-spacing-label: 0.175em;
 
   /* Spacing */
   --spacing-0: 0;

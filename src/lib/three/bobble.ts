@@ -83,6 +83,13 @@ export const createBobble = (
     bone.quaternion.copy(_boneQuat);
   };
 
+  // Prevent browser scroll only when touch starts on the head — lets page scroll otherwise.
+  canvas.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 1 && getHit(e.touches[0].clientX, e.touches[0].clientY)) {
+      e.preventDefault();
+    }
+  }, { passive: false });
+
   canvas.addEventListener("pointerdown", (e) => {
     if (!getHit(e.clientX, e.clientY)) return;
     isDragging = true;
