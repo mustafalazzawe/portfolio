@@ -13,7 +13,7 @@ export const loadMoose = (): Promise<THREE.Group> =>
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
     loader.load(
-      "/three/models/moose-fix28.glb",
+      "/three/models/moose-shine.glb",
       (gltf) => {
         // gltf.scene.traverse((obj) => {
         //   if (obj instanceof THREE.Mesh && obj.material instanceof THREE.MeshStandardMaterial) {
