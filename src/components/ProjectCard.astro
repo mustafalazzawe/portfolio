@@ -162,8 +162,9 @@ const {
     }
   }
 
-  @media (hover: hover) and (pointer: fine) and (max-width: 480px) {
-    .project__container:has(.project__title-link):hover .project__thumbnail {
+  @media (pointer: coarse) or (max-width: 480px) {
+    .project__container:has(.project__title-link):hover .project__thumbnail,
+    .project__container:has(.project__title-link):active .project__thumbnail {
       border-color: var(--border-primary);
     }
   }
@@ -244,7 +245,9 @@ const {
   .project__arrow {
     display: flex;
 
-    transition: transform 0.3s ease, color 0.1s ease;
+    transition:
+      transform 0.3s ease,
+      color 0.1s ease;
   }
 
   .project__container:hover .project__arrow,
