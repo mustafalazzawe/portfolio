@@ -16,7 +16,7 @@ export const loadMoose = (useAO: boolean): Promise<Group> =>
     const loader = new GLTFLoader();
     loader.setDRACOLoader(dracoLoader);
     loader.load(
-      "/three/models/moose-shine.glb",
+      "/three/models/moose-optimized.glb",
       (gltf) => {
         if (useAO && aoTexture) {
           gltf.scene.traverse((obj) => {
