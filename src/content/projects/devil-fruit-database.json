@@ -1,0 +1,10 @@
+{
+  "order": 5,
+  "status": "Completed",
+  "title": "Devil Fruit Database",
+  "description": "A reference database for One Piece's Devil Fruits, built full-stack with a React TypeScript frontend and FastAPI backend. Containerized with Docker and deployed on Google Cloud Platform.",
+  "tags": ["React", "Typescript", "FastAPI", "PostgreSQL", "Docker", "Google Cloud Platform"],
+  "thumbnail": "../../assets/thumbnails/dfa-thumbnail-sm.png",
+  "repoURL": "https://github.com/mustafalazzawe/devil-fruit-database",
+  "liveURL": "https://mustafalazzawe.github.io/devil-fruit-database/"
+}

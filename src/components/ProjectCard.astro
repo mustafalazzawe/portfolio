@@ -4,7 +4,7 @@ import Icon from "./Icons/Icon.astro";
 import Tag from "./Tag.astro";
 import type { TProject } from "./Sections/Projects.astro";
 
-interface Props extends TProject {
+interface Props extends Omit<TProject, "order"> {
   index?: number;
 }
 

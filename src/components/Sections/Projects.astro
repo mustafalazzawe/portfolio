@@ -1,79 +1,12 @@
 ---
+import { getCollection, type CollectionEntry } from "astro:content";
 import ProjectCard from "../ProjectCard.astro";
-import type { ImageMetadata } from "astro";
 
-import humraThumbnail from "../../assets/thumbnails/humra-thumbnail-sm.png";
-import pebbleThumbnail from "../../assets/thumbnails/pebble-thumbnail-sm.png";
-import sdsThumbnail from "../../assets/thumbnails/sds-thumbnail-sm.png";
-import dfaThumbnail from "../../assets/thumbnails/dfa-thumbnail-sm.png";
-import jdsThumbnail from "../../assets/thumbnails/jds-thumbnail-sm.png";
+export type TProject = CollectionEntry<"projects">["data"];
 
-type TProjectStatus = "Ongoing" | "Work in Progress" | "Completed";
-
-export type TProject = {
-  status: TProjectStatus;
-  title: string;
-  description: string;
-  tags: string[];
-  thumbnail?: ImageMetadata;
-  repoURL?: string;
-  liveURL?: string;
-};
-
-const projects: TProject[] = [
-  {
-    status: "Work in Progress",
-    title: "HUMRĀ Events",
-    description:
-      "A compatibility matching platform built end-to-end for live mixer events — research-backed algorithm, real-time admin dashboard, and synchronized match reveal. Achieved a 94% match rate in production.",
-    tags: ["HTML", "CSS", "JavaScript", "Firebase"],
-    thumbnail: humraThumbnail,
-    liveURL: "https://events.humra.love/demo/#landing",
-  },
-  {
-    status: "Work in Progress",
-    title: "Pebble: Personal Expense Tracker",
-    description:
-      "A mobile expense tracking app designed for financial mindfulness. Manual-first by design — no bank connections, no data sharing, just intentional awareness of where your money goes.",
-    tags: ["Figma", "Mobile Design"],
-    thumbnail: pebbleThumbnail,
-  },
-  {
-    status: "Completed",
-    title: "Semantic Design System",
-    description:
-      "A color tooling system with real-time contrast validation and semantic token generation. Built to WCAG and AODA standards, with automated deployment via GitHub Actions CI/CD.",
-    tags: ["HTML", "CSS", "Javascript"],
-    thumbnail: sdsThumbnail,
-    repoURL: "https://github.com/mustafalazzawe/design-system",
-    liveURL: "https://mustafalazzawe.github.io/design-system/",
-  },
-  {
-    status: "Completed",
-    title: "Devil Fruit Database",
-    description:
-      "A reference database for One Piece's Devil Fruits, built full-stack with a React TypeScript frontend and FastAPI backend. Containerized with Docker and deployed on Google Cloud Platform.",
-    tags: [
-      "React",
-      "Typescript",
-      "FastAPI",
-      "PostgreSQL",
-      "Docker",
-      "Google Cloud Platform",
-    ],
-    thumbnail: dfaThumbnail,
-    repoURL: "https://github.com/mustafalazzawe/devil-fruit-database",
-    liveURL: "https://mustafalazzawe.github.io/devil-fruit-database/",
-  },
-  {
-    status: "Ongoing",
-    title: "Juniper Design System",
-    description:
-      "A personal design system of primitives, tokens, and components I maintain across my own projects. Built with accessibility compliance and scalability in mind from the ground up.",
-    tags: ["Figma", "UI/UX Design", "Design Systems", "WCAG"],
-    thumbnail: jdsThumbnail,
-  },
-];
+const projects = (await getCollection("projects")).sort(
+  (a, b) => a.data.order - b.data.order
+);
 ---
 
 <section id="projects" class="projects">
@@ -84,13 +17,13 @@ const projects: TProject[] = [
         projects.map((project, i) => (
           <ProjectCard
             index={i}
-            status={project.status}
-            title={project.title}
-            description={project.description}
-            tags={project.tags}
-            thumbnail={project.thumbnail}
-            repoURL={project.repoURL}
-            liveURL={project.liveURL}
+            status={project.data.status}
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.tags}
+            thumbnail={project.data.thumbnail}
+            repoURL={project.data.repoURL}
+            liveURL={project.data.liveURL}
           />
         ))
       }
