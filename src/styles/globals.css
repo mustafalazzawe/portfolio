@@ -143,6 +143,12 @@ button span {
 
   border: none;
   border-radius: var(--b-radius-lg);
+
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.btn:active {
+  transform: scale(0.97);
 }
 
 @media (max-width: 768px) {
@@ -154,7 +160,9 @@ button span {
 .btn-primary {
   color: var(--fg-on-primary);
   background-color: var(--interactive-primary);
-  transition: background-color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .btn-primary:hover {
@@ -168,7 +176,9 @@ button span {
 .btn-secondary {
   color: var(--fg-on-secondary);
   background-color: var(--interactive-secondary);
-  transition: background-color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .btn-secondary:hover {
@@ -184,7 +194,9 @@ button span {
 
   background: none;
   color: var(--interactive-foreground);
-  transition: color 180ms ease;
+  transition:
+    color 180ms ease,
+    transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .btn-label:hover {

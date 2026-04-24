@@ -3,5 +3,6 @@
   "status": "Ongoing",
   "title": "Juniper Design System",
   "description": "A personal design system of primitives, tokens, and components I maintain across my own projects. Built with accessibility compliance and scalability in mind from the ground up.",
-  "tags": ["Figma", "UI/UX Design", "Design Systems", "WCAG"]
+  "tags": ["Figma", "UI/UX Design", "Design Systems", "WCAG"],
+  "thumbnail": "../../assets/thumbnails/jds-thumbnail-sm.png"
 }

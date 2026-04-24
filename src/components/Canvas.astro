@@ -2,7 +2,7 @@
 
 ---
 
-<canvas class="canvas"></canvas>
+<canvas class="canvas" aria-hidden="true"></canvas>
 
 <style>
   .canvas {
@@ -30,7 +30,11 @@
   // Lazy-load the entire Three.js bundle.
   // Vite code-splits this into a separate chunk that is only
   // fetched when this import() executes, keeping the initial page load fast.
-  import("../lib/three/init").then(({ initCanvas }) => {
-    initCanvas(canvas, { antialias: !isMobile });
-  });
+  import("../lib/three/init")
+    .then(({ initCanvas }) => {
+      initCanvas(canvas, { antialias: !isMobile });
+    })
+    .catch((err) => {
+      console.error("[Canvas] Failed to load Three.js init chunk:", err);
+    });
 </script>
