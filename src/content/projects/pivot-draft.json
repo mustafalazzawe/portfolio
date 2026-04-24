@@ -3,6 +3,6 @@
   "status": "Work in Progress",
   "title": "Pivot Draft",
   "description": "A 9-category fantasy basketball draft sandbox built around punt strategy. The engine re-ranks the entire player pool in real time as you build your roster — surfacing undervalued targets through a FIT score that compares your build's ideal rank against market ADP.",
-  "tags": ["React", "TypeScript", "FastAPI", "PostgreSQL", "Auth0", "Render"],
+  "tags": ["Angular", "TypeScript", "Spring Boot", "PostgreSQL", "Auth0"],
   "thumbnail": "../../assets/thumbnails/pivot-thumbnail-sm.png"
 }

@@ -1,6 +1,7 @@
 ---
 import Canvas from "../Canvas.astro";
 import Icon from "../Icons/Icon.astro";
+import Tooltip from "../Tooltip.astro";
 ---
 
 <section id="home" class="hero">
@@ -21,30 +22,46 @@ import Icon from "../Icons/Icon.astro";
         </div>
 
         <div class="hero__actions">
-          <a
-            href="https://github.com/mustafalazzawe"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-          >
-            <Icon name="github-alt" size={24} />
-          </a>
-          <a
-            href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-          >
-            <Icon name="linkedin" size={24} />
-          </a>
-          <a
-            href="/resume.pdf"
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Resume"
-          >
-            <Icon name="resume" size={24} />
-          </a>
+          <Tooltip label="Github">
+            <a
+              href="https://github.com/mustafalazzawe"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="GitHub"
+            >
+              <Icon name="github-alt" size={24} />
+            </a>
+          </Tooltip>
+          <Tooltip label="Twitter/X">
+            <a
+              href="https://x.com/mustafalazzawe_"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="X"
+            >
+              <Icon name="x-logo" size={24} />
+            </a>
+          </Tooltip>
+          <Tooltip label="LinkedIn">
+            <a
+              href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+            >
+              <Icon name="linkedin" size={24} />
+            </a>
+          </Tooltip>
+          <Tooltip label="Resume">
+            <a
+              href="/resume.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Resume"
+            >
+              <Icon name="resume" size={24} />
+            </a>
+          </Tooltip>
         </div>
       </div>
 

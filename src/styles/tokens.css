@@ -31,6 +31,7 @@
 
   /* Alpha colors */
   --primary-alpha: rgba(30, 122, 143, 0.24);
+  --modal-alpha: rgba(0, 0, 0, 0.36);
 
   /* Foreground colors */
   --fg-primary: var(--color-neutral-50);
@@ -44,6 +45,7 @@
   --bg-primary: var(--color-neutral-900);
   --bg-secondary: var(--color-neutral-800);
   --bg-tertiary: var(--color-neutral-700);
+  --bg-modal-overlay: var(--modal-alpha);
 
   /* Interactive colors */
   --interactive-primary: var(--color-primary-600);
