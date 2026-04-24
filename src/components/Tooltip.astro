@@ -56,6 +56,8 @@ const { label } = Astro.props;
 
   .tooltip__arrow {
     display: block;
+
+    pointer-events: none;
   }
 
   .tooltip__body {
@@ -66,6 +68,8 @@ const { label } = Astro.props;
 
     color: var(--fg-primary);
     white-space: nowrap;
+
+    pointer-events: auto;
   }
 
   @media (hover: hover) and (pointer: fine) {
@@ -73,6 +77,12 @@ const { label } = Astro.props;
       opacity: 1;
       transform: translateX(-50%) scale(1);
       transition-delay: 350ms;
+    }
+
+    /* Skip the open-delay when a sibling tooltip is already open
+       (Emil's "once one is open, adjacent hovers are instant" pattern). */
+    :global(.tooltip-group:has(.tooltip:has(:hover))) .tooltip:has(:hover) .tooltip__popup {
+      transition-delay: 0ms;
     }
   }
 
