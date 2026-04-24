@@ -314,6 +314,8 @@
     const tick = () => {
       requestAnimationFrame(tick);
 
+      if (document.hidden) return;
+
       // Smooth mouse (lerp)
       mouseSmooth.x += (mouseTarget.x - mouseSmooth.x) * 0.07;
       mouseSmooth.y += (mouseTarget.y - mouseSmooth.y) * 0.07;

@@ -4,55 +4,113 @@
 
   gsap.registerPlugin(ScrollTrigger);
 
-  // ─── Hero ───────────────────────────────────────────────
-  gsap.timeline({ defaults: { ease: "power2.out", duration: 0.55 } })
-    .from(".hero__greeting",    { opacity: 0, y: 12 }, 0.15)
-    .from(".hero__title",       { opacity: 0, y: 20 }, 0.3)
-    .from(".hero__description", { opacity: 0, y: 12, stagger: 0.12 }, 0.45)
-    .from(".hero__actions",     { opacity: 0, y: 12 }, 0.6)
-    .from(".hero__canvas",      { opacity: 0, duration: 0.8 }, 0.5);
+  const mm = gsap.matchMedia();
 
-  // ─── Scroll helper ────────────────────────────────────────────────────────────
-  const scrollFrom = (
-    targets: string,
-    vars: gsap.TweenVars,
-    trigger?: string
-  ) =>
-    gsap.from(targets, {
-      opacity: 0,
-      y: 24,
-      duration: 0.55,
-      ease: "power2.out",
-      ...vars,
-      scrollTrigger: {
-        trigger: trigger ?? targets,
-        start: "top 88%",
-        once: true,
-      },
-    });
+  mm.add(
+    {
+      fullMotion: "(prefers-reduced-motion: no-preference)",
+      reduceMotion: "(prefers-reduced-motion: reduce)",
+    },
+    (context) => {
+      const { reduceMotion } = context.conditions as {
+        fullMotion: boolean;
+        reduceMotion: boolean;
+      };
 
-  // ─── About ───────────────────────────────────────────────────────────────────
-  scrollFrom(".about__title", {});
-  scrollFrom(".about__text p", { stagger: 0.08 }, ".about__text");
+      if (reduceMotion) {
+        // Gentler: opacity-only fades, no translate, shorter durations.
+        gsap
+          .timeline({ defaults: { ease: "power1.out", duration: 0.3 } })
+          .from(".hero__greeting", { opacity: 0 }, 0.1)
+          .from(".hero__title", { opacity: 0 }, 0.2)
+          .from(".hero__description", { opacity: 0, stagger: 0.08 }, 0.3)
+          .from(".hero__actions", { opacity: 0 }, 0.4)
+          .from(".hero__canvas", { opacity: 0, duration: 0.4 }, 0.35);
 
-  // ─── Projects ─────────────────────────────────────────────────────────────────
-  scrollFrom(".projects__title", {});
-  scrollFrom(".project__cards", { y: 32 });
+        const fadeIn = (targets: string, vars: gsap.TweenVars = {}, trigger?: string) =>
+          gsap.from(targets, {
+            opacity: 0,
+            duration: 0.4,
+            ease: "power1.out",
+            ...vars,
+            scrollTrigger: {
+              trigger: trigger ?? targets,
+              start: "top 88%",
+              once: true,
+            },
+          });
 
-  // ─── Experience ──────────────────────────────────────────────────────────────
-  // .timeline__line--progress is handled by Experience.astro's scrub — untouched
-  // scrollFrom(".experience__title", {});
-  // scrollFrom(".timeline__item", { stagger: 0.1 }, ".experience__items");
+        fadeIn(".about__title");
+        fadeIn(".about__text p", { stagger: 0.06 }, ".about__text");
+        fadeIn(".projects__title");
+        fadeIn(".project__cards");
 
-  // ─── Footer ──────────────────────────────────────────────────────────────────
-  const footerInfo = document.querySelector(".footer__info");
-  if (footerInfo) {
-    gsap.set(footerInfo, { opacity: 0, y: 24 });
-    new IntersectionObserver(([entry], obs) => {
-      if (entry.isIntersecting) {
-        gsap.to(footerInfo, { opacity: 1, y: 0, duration: 0.55, ease: "power2.out" });
-        obs.disconnect();
+        const footerInfo = document.querySelector(".footer__info");
+        if (footerInfo) {
+          gsap.set(footerInfo, { opacity: 0 });
+          new IntersectionObserver(
+            ([entry], obs) => {
+              if (entry.isIntersecting) {
+                gsap.to(footerInfo, { opacity: 1, duration: 0.4, ease: "power1.out" });
+                obs.disconnect();
+              }
+            },
+            { threshold: 0.1 }
+          ).observe(footerInfo);
+        }
+        return;
       }
-    }, { threshold: 0.1 }).observe(footerInfo);
-  }
+
+      // Full motion (no-preference)
+      gsap
+        .timeline({ defaults: { ease: "power2.out", duration: 0.55 } })
+        .from(".hero__greeting", { opacity: 0, y: 12 }, 0.15)
+        .from(".hero__title", { opacity: 0, y: 20 }, 0.3)
+        .from(".hero__description", { opacity: 0, y: 12, stagger: 0.12 }, 0.45)
+        .from(".hero__actions", { opacity: 0, y: 12 }, 0.6)
+        .from(".hero__canvas", { opacity: 0, duration: 0.8 }, 0.5);
+
+      const scrollFrom = (
+        targets: string,
+        vars: gsap.TweenVars,
+        trigger?: string
+      ) =>
+        gsap.from(targets, {
+          opacity: 0,
+          y: 24,
+          duration: 0.55,
+          ease: "power2.out",
+          ...vars,
+          scrollTrigger: {
+            trigger: trigger ?? targets,
+            start: "top 88%",
+            once: true,
+          },
+        });
+
+      scrollFrom(".about__title", {});
+      scrollFrom(".about__text p", { stagger: 0.08 }, ".about__text");
+      scrollFrom(".projects__title", {});
+      scrollFrom(".project__cards", { y: 32 });
+
+      const footerInfo = document.querySelector(".footer__info");
+      if (footerInfo) {
+        gsap.set(footerInfo, { opacity: 0, y: 24 });
+        new IntersectionObserver(
+          ([entry], obs) => {
+            if (entry.isIntersecting) {
+              gsap.to(footerInfo, {
+                opacity: 1,
+                y: 0,
+                duration: 0.55,
+                ease: "power2.out",
+              });
+              obs.disconnect();
+            }
+          },
+          { threshold: 0.1 }
+        ).observe(footerInfo);
+      }
+    }
+  );
 </script>

@@ -74,33 +74,37 @@ export function initCanvas(
     { once: true },
   );
 
-  loadMoose(useAO).then((m) => {
-    const box = new Box3().setFromObject(m);
-    const center = box.getCenter(new Vector3());
-    m.position.sub(center);
+  loadMoose(useAO)
+    .then((m) => {
+      const box = new Box3().setFromObject(m);
+      const center = box.getCenter(new Vector3());
+      m.position.sub(center);
 
-    m.rotation.y = -(Math.PI / 18);
+      m.rotation.y = -(Math.PI / 18);
 
-    baseModelY = m.position.y;
-    model = m;
-    scene.add(m);
-    canvas.classList.add("loaded");
+      baseModelY = m.position.y;
+      model = m;
+      scene.add(m);
+      canvas.classList.add("loaded");
 
-    let headBone: Bone | null = null;
-    m.traverse((obj) => {
-      if (obj instanceof Bone && obj.name === "Head") headBone = obj;
+      let headBone: Bone | null = null;
+      m.traverse((obj) => {
+        if (obj instanceof Bone && obj.name === "Head") headBone = obj;
+      });
+      if (headBone) bobble = createBobble(headBone, canvas, camera);
+
+      // Auto-nudge — demonstrates spring physics if user hasn't interacted yet
+      const scheduleNudge = (delay: number) => {
+        setTimeout(() => {
+          if (!hasInteracted) {
+            bobble?.nudge();
+            scheduleNudge(30000);
+          }
+        }, delay);
+      };
+      scheduleNudge(2500);
+    })
+    .catch((err) => {
+      console.error("[init] Failed to load moose GLB:", err);
     });
-    if (headBone) bobble = createBobble(headBone, canvas, camera);
-
-    // Auto-nudge — demonstrates spring physics if user hasn't interacted yet
-    const scheduleNudge = (delay: number) => {
-      setTimeout(() => {
-        if (!hasInteracted) {
-          bobble?.nudge();
-          scheduleNudge(30000);
-        }
-      }, delay);
-    };
-    scheduleNudge(2500);
-  });
 }
