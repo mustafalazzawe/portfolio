@@ -23,5 +23,10 @@ pnpm-debug.log*
 # jetbrains setting folder
 .idea/
 
+.vscode/
+.claude/
+
+misc/
 docs/
 backup/
+tickets/

@@ -58,7 +58,7 @@ h5 {
 }
 
 h6 {
-  font-family: var(--font-family-body);
+  font-family: var(--font-family-base);
 
   font-size: var(--font-size-body-sm);
   font-weight: var(--font-weight-semibold);
@@ -80,7 +80,7 @@ a:hover {
 }
 
 a:active {
-  color: var(--interactive-active);
+  color: var(--interactive-foreground-active);
 }
 
 a span {
