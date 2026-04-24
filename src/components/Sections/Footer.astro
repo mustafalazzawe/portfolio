@@ -1,19 +1,77 @@
 ---
 import Icon from "../Icons/Icon.astro";
+
+const year = new Date().getFullYear();
 ---
 
 <footer>
   <div class="container">
-    <div class="footer__info">
+    <div class="footer__top">
+      <div class="footer__col">
+        <p class="text-body-md footer__label">Email</p>
+        <a
+          href="mailto:hello@mustafalazzawe.com"
+          class="interactive btn btn-label"
+        >
+          hello@mustafalazzawe.com
+        </a>
+      </div>
+
+      <div class="footer__col">
+        <p class="text-body-md footer__label">Links</p>
+        <div class="footer__links">
+          <a
+            href="https://github.com/mustafalazzawe"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="GitHub"
+            class="interactive btn btn-label footer__link"
+          >
+            <Icon name="github-alt" size={24} />
+          </a>
+          <a
+            href="https://x.com/mustafalazzawe_"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="X"
+            class="interactive btn btn-label footer__link"
+          >
+            <Icon name="x-logo" size={24} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/mustafa-al-azzawe-147a981a9/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="LinkedIn"
+            class="interactive btn btn-label footer__link"
+          >
+            <Icon name="linkedin" size={24} />
+          </a>
+          <a
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Resume"
+            class="interactive btn btn-label footer__link"
+          >
+            <Icon name="resume" size={24} />
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer__divider"></div>
+
+    <div class="footer__bottom">
       <span class="footer__location">
         Based in
-        <span class="icon__wrapper">
-          <Icon name="maple-leaf" size={20} fill="#FF0000" />
+        <span class="footer__leaf">
+          <Icon name="maple-leaf" size={24} fill="#FF0000" />
         </span>
         Toronto, Ontario, Canada
       </span>
       <span class="footer__copyright">
-        &copy; {new Date().getFullYear()} Mustafa Al-Azzawe
+        &copy; {year} Mustafa Al-Azzawe
       </span>
     </div>
   </div>
@@ -26,25 +84,75 @@ import Icon from "../Icons/Icon.astro";
     background-color: var(--bg-primary);
   }
 
-  .footer__info {
+  .footer__top {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--spacing-16);
+  }
+
+  @media (max-width: 768px) {
+    .footer__top {
+      flex-direction: column;
+      gap: var(--spacing-12);
+    }
+  }
+
+  .footer__col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--spacing-4);
+  }
+
+  .footer__label {
+    color: var(--fg-secondary);
+  }
+
+  .footer__links {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-8);
+  }
+
+  .footer__link {
+    color: var(--interactive-foreground);
+  }
+
+  .footer__divider {
+    height: 1px;
+
+    background-color: var(--border-secondary);
+  }
+
+  .footer__bottom {
     display: flex;
     justify-content: space-between;
     align-items: center;
   }
 
   @media (max-width: 768px) {
-    .footer__info {
+    .footer__bottom {
       flex-direction: column;
       align-items: center;
-      gap: var(--spacing-20);
+      gap: var(--spacing-12);
     }
   }
 
   .footer__location {
-    display: inline;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--spacing-4);
+
+    color: var(--fg-secondary);
+    white-space: nowrap;
   }
 
-  .icon__wrapper {
-    padding-inline: var(--spacing-1);
+  .footer__copyright {
+    color: var(--fg-secondary);
+  }
+
+  .footer__leaf {
+    display: inline-flex;
+    align-items: center;
   }
 </style>

@@ -1,5 +1,5 @@
 {
-  "order": 4,
+  "order": 5,
   "status": "Completed",
   "title": "Semantic Design System",
   "description": "A color tooling system with real-time contrast validation and semantic token generation. Built to WCAG and AODA standards, with automated deployment via GitHub Actions CI/CD.",

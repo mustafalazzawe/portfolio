@@ -11,6 +11,7 @@ import GithubAlt from "./src/GithubAlt.astro";
 import LinkedIn from "./src/LinkedIn.astro";
 import MapleLeaf from "./src/MapleLeaf.astro";
 import Resume from "./src/Resume.astro";
+import XLogo from "./src/XLogo.astro";
 
 interface Props extends IIconComponentProps {}
 
@@ -23,6 +24,7 @@ const icons: Record<TIconName, TIconComponent> = {
   "linkedin": LinkedIn,
   "maple-leaf": MapleLeaf,
   "resume": Resume,
+  "x-logo": XLogo
 };
 
 const IconComponent = icons[name];

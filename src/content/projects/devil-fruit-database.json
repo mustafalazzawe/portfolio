@@ -1,5 +1,5 @@
 {
-  "order": 5,
+  "order": 3,
   "status": "Completed",
   "title": "Devil Fruit Database",
   "description": "A reference database for One Piece's Devil Fruits, built full-stack with a React TypeScript frontend and FastAPI backend. Containerized with Docker and deployed on Google Cloud Platform.",

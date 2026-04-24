@@ -1,0 +1,96 @@
+---
+interface Props {
+  label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<span class="tooltip">
+  <slot />
+  <span class="tooltip__popup" aria-hidden="true">
+    <svg
+      class="tooltip__arrow"
+      width="6.928"
+      height="6"
+      viewBox="0 0 6.928 6"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M3.464 0L6.928 6H0L3.464 0Z" fill="var(--bg-modal-overlay)"></path>
+    </svg>
+    <span class="text-supporting-small tooltip__body">{label}</span>
+  </span>
+</span>
+
+<style>
+  .tooltip {
+    position: relative;
+
+    display: inline-flex;
+  }
+
+  .tooltip__popup {
+    position: absolute;
+    top: calc(50% + var(--spacing-8));
+    left: 50%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.07))
+      drop-shadow(0 1px 3px rgba(0, 0, 0, 0.11));
+
+    opacity: 0;
+    transform: translateX(-50%) scale(0.97);
+    transform-origin: top center;
+
+    pointer-events: none;
+    z-index: 1;
+
+    transition:
+      opacity 180ms cubic-bezier(0.23, 1, 0.32, 1),
+      transform 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    transition-delay: 0ms;
+  }
+
+  .tooltip__arrow {
+    display: block;
+  }
+
+  .tooltip__body {
+    padding: var(--spacing-3);
+
+    border-radius: var(--b-radius-sm);
+    background-color: var(--bg-modal-overlay);
+
+    color: var(--fg-primary);
+    white-space: nowrap;
+  }
+
+  @media (hover: hover) and (pointer: fine) {
+    .tooltip:has(:hover) .tooltip__popup {
+      opacity: 1;
+      transform: translateX(-50%) scale(1);
+      transition-delay: 350ms;
+    }
+  }
+
+  .tooltip:has(:focus-visible) .tooltip__popup {
+    opacity: 1;
+    transform: translateX(-50%) scale(1);
+    transition-delay: 350ms;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tooltip__popup,
+    .tooltip:has(:hover) .tooltip__popup,
+    .tooltip:has(:focus-visible) .tooltip__popup {
+      transform: translateX(-50%);
+    }
+
+    .tooltip__popup {
+      transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    }
+  }
+</style>
