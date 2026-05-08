@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@types/three": "^0.183.1",
-    "astro": "^5.15.4",
+    "astro": "6.3.1",
     "gsap": "^3.13.0",
     "three": "^0.183.1"
   }

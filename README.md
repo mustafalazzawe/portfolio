@@ -1,43 +1,48 @@
-# Astro Starter Kit: Minimal
+# Portfolio — Mustafa Al-Azzawe
+
+The source for my personal portfolio, built as a small showcase of design-engineering work. A single-page experience covering who I am, what I've built, and how to reach me.
+
+🌐 **Live:** [mustafalazzawe.com](https://mustafalazzawe.com)
+
+<!-- Add a screenshot here once you have one — e.g. ![](docs/screenshot.png) -->
+
+## Why this repo is interesting
+
+Beyond being a portfolio, the project leans into a few technical choices worth pointing out:
+
+- **Custom WebGL fragment shader for the background.** Hand-written GLSL — slow-drifting FBM noise with positional Gaussian glows, mouse parallax, and scroll-aware page-space coordinates. About 200 lines of shader code, no third-party library.
+- **Interactive 3D bobblehead in the hero.** A stylized moose — modeled and rigged by me in Blender — running a damped harmonic oscillator on its head bone. Click and drag the head; release for a spring-driven settle with overshoot. Velocity Verlet integration, fixed timestep, sleep threshold for idle CPU. Implementation lives in [`src/lib/three/bobble.ts`](src/lib/three/bobble.ts).
+- **meshopt-compressed glTF.** The 3D model uses [meshopt](https://github.com/zeux/meshoptimizer) compression — ~50% smaller cold-start payload than the typical Draco setup, with faster decode and a much smaller decoder bundle.
+- **Astro Content Collections for projects.** The project list is driven by Zod-validated JSON files, not hardcoded component data. Adding a project is a single-file commit; the build catches schema typos before they ship.
+- **Pure `.astro` components.** No React, Vue, or Svelte — Astro generates static HTML and ships only the JavaScript that's actually needed (Three.js bundle is lazy-loaded; everything else is HTML/CSS).
+- **Motion design as a first-class concern.** Animations follow the design-engineering principles laid out by [Emil Kowalski](https://animations.dev) — origin-aware popovers, custom ease curves, asymmetric enter/exit timing, full `prefers-reduced-motion` support.
+- **Accessibility from day one.** WCAG 1.4.13 hoverable tooltips, keyboard parity for every interaction, reduced-motion paths across GSAP / CSS / WebGL, touch-device hover gating.
+
+## Stack
+
+| Layer | Tech |
+|---|---|
+| Framework | [Astro 6](https://astro.build) (static output) |
+| Language | TypeScript (strict) |
+| Animation | [GSAP 3](https://gsap.com) + native CSS transitions |
+| 3D | [Three.js 0.183](https://threejs.org) |
+| Background | Custom WebGL fragment shader (raw GLSL) |
+| Styling | Plain CSS with design tokens |
+| Package manager | [bun](https://bun.sh) |
+
+## Local development
 
 ```sh
-npm create astro@latest -- --template minimal
+# Install dependencies
+bun install
+
+# Start the dev server (localhost:4321)
+bun run dev
+
+# Production build to ./dist/
+bun run build
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## License
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-├── src/
-│   └── pages/
-│       └── index.astro
-└── package.json
-```
-
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
-
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
-
-Any static assets, like images, can be placed in the `public/` directory.
-
-## 🧞 Commands
-
-All commands are run from the root of the project, from a terminal:
-
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
-
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+[MIT](LICENSE.md).
