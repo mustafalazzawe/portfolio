@@ -4,8 +4,6 @@ The source for my personal portfolio, built as a small showcase of design-engine
 
 🌐 **Live:** [mustafalazzawe.com](https://mustafalazzawe.com)
 
-<!-- Add a screenshot here once you have one — e.g. ![](docs/screenshot.png) -->
-
 ## Why this repo is interesting
 
 Beyond being a portfolio, the project leans into a few technical choices worth pointing out:
@@ -45,4 +43,4 @@ bun run build
 
 ## License
 
-[MIT](LICENSE.md).
+[CC BY-NC-ND 4.0](LICENSE.md).
