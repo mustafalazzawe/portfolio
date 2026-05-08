@@ -1,7 +1,7 @@
 import { TextureLoader, NoColorSpace, Mesh, MeshStandardMaterial } from "three";
 import type { Group, Texture } from "three";
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js";
-import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader.js";
+import { MeshoptDecoder } from "three/examples/jsm/libs/meshopt_decoder.module.js";
 
 export const loadMoose = (useAO: boolean): Promise<Group> =>
   new Promise((resolve, reject) => {
@@ -11,10 +11,8 @@ export const loadMoose = (useAO: boolean): Promise<Group> =>
       aoTexture.colorSpace = NoColorSpace;
     }
 
-    const dracoLoader = new DRACOLoader();
-    dracoLoader.setDecoderPath('/three/draco/');
     const loader = new GLTFLoader();
-    loader.setDRACOLoader(dracoLoader);
+    loader.setMeshoptDecoder(MeshoptDecoder);
     loader.load(
       "/three/models/moose-optimized.glb",
       (gltf) => {
